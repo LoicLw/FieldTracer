@@ -1,0 +1,10 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    
+    <item android:id="@+id/menu_trace" android:title="Trace" android:orderInCategory="50"></item>
+    <item android:id="@+id/menu_share" android:title="Share" android:orderInCategory="60"></item>
+    <item android:id="@+id/menu_settings" android:orderInCategory="80" android:title="Settings" />
+    <item android:id="@+id/menu_tools" android:title="Tools" android:orderInCategory="90"></item>
+    <item android:id="@+id/menu_home" android:title="Home"></item>
+
+</menu>
