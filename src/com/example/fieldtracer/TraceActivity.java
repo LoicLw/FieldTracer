@@ -4,11 +4,33 @@ import android.os.Bundle;
 import android.app.Activity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.support.v4.app.NavUtils;
 import android.annotation.TargetApi;
+import android.content.Context;
 import android.os.Build;
 
+//Other
+import android.util.Log;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ProgressBar;
+import android.widget.TextView;
+import android.widget.Toast;
+import java.util.Date;
+
+//GPS
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
+
+
 public class TraceActivity extends Activity {
+	
+private TextView editLocation = null;   
+private static final String TAG = "Debug";
+Date secondDate = new Date();
+private Long time_diff;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -16,6 +38,47 @@ public class TraceActivity extends Activity {
 		setContentView(R.layout.activity_trace);
 		// Show the Up button in the action bar.
 		setupActionBar();
+		
+		editLocation = (TextView) findViewById(R.id.textView1);   
+
+	//GPS acquisition part
+		// Acquire a reference to the system Location Manager
+		LocationManager locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
+
+		// Define a listener that responds to location updates
+		LocationListener locationListener = new LocationListener() {
+		    public void onLocationChanged(Location loc) {
+		      // Called when a new location is found by the network location provider.
+		    	
+		    	//Getting the time difference each time onLocationChanged is called
+		    	time_diff = (new Date()).getTime() - secondDate.getTime();
+		    	   
+		    	Toast.makeText(getBaseContext(),
+		    	     "Location changed: Lat: " +loc.getLatitude()+" Lng: "  
+		    	     + loc.getLongitude(), Toast.LENGTH_SHORT).show();  
+		    	String longitude = "Longitude: " + loc.getLongitude();  
+		    	Log.v(TAG, longitude);  
+		    	String latitude = "Latitude: " + loc.getLatitude();  
+		    	Log.v(TAG, latitude);  
+		    	editLocation.setText("Lat: " +loc.getLatitude()+" Lng: "  
+				     + loc.getLongitude() + " Accuracy : "+ loc.getAccuracy() + " DiffTime : "+ time_diff);
+		    	 
+		    	secondDate = new Date();
+		    }
+
+		    public void onStatusChanged(String provider, int status, Bundle extras) {}
+
+		    public void onProviderEnabled(String provider) {
+		    	Toast.makeText(getApplicationContext(), "Gps enabled",Toast.LENGTH_SHORT).show();
+		    }
+
+		    public void onProviderDisabled(String provider) {
+		    	Toast.makeText(getApplicationContext(), "Gps disabled",Toast.LENGTH_SHORT).show();
+		    }		
+		  };
+
+		// Register the listener with the Location Manager to receive location updates
+		locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
 	}
 
 	/**
