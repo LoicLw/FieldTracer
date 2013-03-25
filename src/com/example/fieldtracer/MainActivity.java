@@ -25,7 +25,7 @@ private LocationListener locationListener;
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		
-		editMessage = (TextView) findViewById(R.id.textView1);  
+		editMessage = (TextView) findViewById(R.id.textView2);  
 	}
 	
  
