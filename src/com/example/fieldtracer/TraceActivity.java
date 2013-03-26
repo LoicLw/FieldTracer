@@ -11,7 +11,9 @@ import org.mapsforge.android.maps.overlay.MyLocationOverlay;
 import org.mapsforge.core.model.GeoPoint;
 
 import android.annotation.TargetApi;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.location.LocationListener;
@@ -20,28 +22,39 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.v4.app.NavUtils;
+import android.text.Editable;
+import android.text.format.Time;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.ToggleButton;
 
 
 public class TraceActivity extends MapActivity {
 	
 private TextView editLocation = null;   
+private ToggleButton mToggle = null;
 private static final String TAG = "Debug";
 Date secondDate = new Date();
+
 private Long time_diff;
 private File file;
 private Location current_loc;
 
 // list of markers
-
 private MapView mapView;
 private MyLocationOverlay myLocationOverlay;
+
+final Context context = this;
+private Boolean trace_toggle = false;
+private String poi_name = "";
+private String trace_name = "";
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -70,12 +83,13 @@ private MyLocationOverlay myLocationOverlay;
 		
 		this.mapView.getOverlays().add(this.myLocationOverlay);
 		
-		//Get the hardcoded map
+		//Get the hard coded map
 		String mMapFileName = null;
-		mMapFileName = "/adl.map";
+		//mMapFileName = "adl.map";
+		mMapFileName = "south_australia.map";
 		
 		String mMapDataPath = Environment.getExternalStorageDirectory().getPath();
-		mMapFileName = mMapDataPath + mMapFileName;
+		mMapFileName = mMapDataPath + "/_FieldTracer/" + mMapFileName;
 		Log.v(TAG,"------------------" +"Map path is : "+ mMapFileName + "---------------------");
 		mapView.setMapFile(new File(mMapFileName));
 		
@@ -94,8 +108,14 @@ private MyLocationOverlay myLocationOverlay;
 		    	//Getting the time difference each time onLocationChanged is called
 		    	time_diff = (new Date()).getTime() - secondDate.getTime();	    	 		    	
 		    	editLocation.setText(loc.getLongitude() + "," + loc.getLatitude());
+		    	
 		    	// Used to take measurement
 		    	//writeToSDCard(loc.getLatitude() +";" +loc.getLongitude()+ ";"+ loc.getAccuracy() + ";"+ time_diff+'\n');
+		    	
+		    	if (trace_toggle == true) {
+		    		writeTrace(loc.getLongitude(), loc.getLatitude(), loc.getAccuracy(), trace_name);
+		    	}
+		    	
 		    	secondDate = new Date();
 		    	current_loc=loc;
 		    }
@@ -144,6 +164,7 @@ private MyLocationOverlay myLocationOverlay;
 		return super.onOptionsItemSelected(item);
 	}
 	
+	//Not used anymore
 	private void writeToSDCard(String str) {
 		String separator = System.getProperty("line.separator");
 		if ( str.toString().equals("")) {
@@ -162,14 +183,147 @@ private MyLocationOverlay myLocationOverlay;
 		}		
 	}
 	
+	private void writePOI(Double longitude, Double latitude, Float accuracy, String name) {
+		String separator = System.getProperty("line.separator");
+		String str = "";
+		//Get the time to date the POI
+		Time today = new Time(Time.getCurrentTimezone());
+		today.setToNow();
+		
+		//Writing file to SD card
+	    	file = new File(Environment.getExternalStorageDirectory() + "/_FieldTracer/", "POI_"+ name.replaceAll(" ", "_") +"_" + today.format("%Y%m%d-%H-%M-%S") +".txt");
+	        try {
+	            FileWriter fWriter = new FileWriter(file, true);
+	            str=longitude + "," + latitude + "," + accuracy + "," + name;
+	            fWriter.append(str.toString().trim());
+	            fWriter.append(separator);
+	            fWriter.close();
+			} catch (Exception e) {
+				Log.e("WRITE POI TO SD", e.getMessage());
+			}		
+	}
+	
+	
+	private void writeTrace(Double longitude, Double latitude, Float accuracy, String name) {
+		String separator = System.getProperty("line.separator");
+		String str = "";
+		//Get the time to date the Trace
+		Time today = new Time(Time.getCurrentTimezone());
+		today.setToNow();
+		
+		//Writing file to SD card
+	    	file = new File(Environment.getExternalStorageDirectory() + "/_FieldTracer/", "Trace_"+ name.replaceAll(" ", "_") +"_" + today.format("%Y%m%d") +".txt");
+	        try {
+	            FileWriter fWriter = new FileWriter(file, true);
+	            str=longitude + "," + latitude + "," + accuracy + "," + name;
+	            fWriter.append(str.toString().trim());
+	            fWriter.append(separator);
+	            fWriter.close();
+			} catch (Exception e) {
+				Log.e("WRITE POI TO SD", e.getMessage());
+			}		
+	}
+	
 	public void ButtonOnCenter(View v ) {
 		// TODO add case location is not available
 		String longitude = "Longitude: " + current_loc.getLongitude();  Log.v(TAG, longitude);  
     	String latitude = "Latitude: " + current_loc.getLatitude();   Log.v(TAG, latitude);
 		GeoPoint point = new GeoPoint(current_loc.getLatitude(), current_loc.getLongitude());
-
+		
 		//MapFileInfo mapFileInfo = this.mapView.getMapDatabase().getMapFileInfo();
 		this.mapView.getMapViewPosition().setCenter(point);
+	}
+	
+	public void ButtonOnPOIAdd(View v){
+		
+		// get prompts.xml view
+		LayoutInflater li = LayoutInflater.from(context);
+		View promptsView = li.inflate(R.layout.poi_prompt, null);
+
+		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
+				context);
+
+		// set prompts.xml to alertdialog builder
+		alertDialogBuilder.setView(promptsView);
+
+		final EditText userInput = (EditText) promptsView
+				.findViewById(R.id.editTextDialogUserInput);
+
+		// set dialog message
+		alertDialogBuilder
+			.setCancelable(false)
+			.setPositiveButton("OK",
+			  new DialogInterface.OnClickListener() {
+			    public void onClick(DialogInterface dialog,int id) {
+					// get user input and set it to result
+					// edit text
+					poi_name = userInput.getText().toString();
+					try{								
+						writePOI(current_loc.getLongitude(), current_loc.getLatitude(),current_loc.getAccuracy(), poi_name);
+					}
+					catch (Exception e) {
+						Log.e("Error while trying to write Poi To External Storage", e.getMessage());						
+					}	
+			    }
+			  })
+			.setNegativeButton("Cancel",
+			  new DialogInterface.OnClickListener() {
+			    public void onClick(DialogInterface dialog,int id) {
+				dialog.cancel();
+			    }
+			  });
+		// create alert dialog
+		AlertDialog alertDialog = alertDialogBuilder.create();
+		// show it
+		alertDialog.show();
+	}
+	
+	public void onTraceToggleClicked(View view) {
+	    // Is the toggle on?
+	    boolean on = ((ToggleButton) view).isChecked();
+	    
+	    if (on) {
+	    	// get prompts.xml view
+			LayoutInflater li = LayoutInflater.from(context);
+			View promptsView = li.inflate(R.layout.poi_prompt, null);
+
+			AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
+					context);
+
+			// set prompts.xml to alertdialog builder
+			alertDialogBuilder.setView(promptsView);
+
+			final EditText userInput = (EditText) promptsView
+					.findViewById(R.id.editTextDialogUserInput);
+
+			// set dialog message
+			alertDialogBuilder
+				.setCancelable(false)
+				.setPositiveButton("OK",
+				  new DialogInterface.OnClickListener() {
+				    public void onClick(DialogInterface dialog,int id) {
+				    	trace_name = userInput.getText().toString();
+				    	trace_toggle=true;
+				    }
+				  })
+				.setNegativeButton("Cancel",
+				  new DialogInterface.OnClickListener() {
+				    public void onClick(DialogInterface dialog,int id) {
+				    	//Force un toggle button
+				    	mToggle = (ToggleButton)findViewById(R.id.toggleTrace);
+				    	mToggle.setChecked(false);
+				    	trace_toggle=false;
+				    	dialog.cancel();
+				    }
+				  });
+
+			// create alert dialog and show it
+			AlertDialog alertDialog = alertDialogBuilder.create();
+			alertDialog.show();
+	    	
+	    } else {
+	    	trace_toggle=false;
+	    }
 	}
 
 }

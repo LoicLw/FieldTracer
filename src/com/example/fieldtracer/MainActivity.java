@@ -41,37 +41,32 @@ private LocationListener locationListener;
 	  public boolean onOptionsItemSelected(MenuItem item) {
 	    switch (item.getItemId()) {
 	    case R.id.menu_trace:
-	      Toast.makeText(this, "Menu Item trace selected", Toast.LENGTH_SHORT)
-	          .show();
+
 	      //Starting the new activity through an intent
 	      Intent intent_trace = new Intent(MainActivity.this,TraceActivity.class);
 	      MainActivity.this.startActivity(intent_trace);
 	      break;
 	      
 	    case R.id.menu_share:
-	      Toast.makeText(this, "Menu item share selected", Toast.LENGTH_SHORT)
-	          .show();
+
 	      Intent intent_share = new Intent(MainActivity.this,ShareActivity.class);
 	      MainActivity.this.startActivity(intent_share);
 	      break;
 
 	    case R.id.menu_settings:
-		      Toast.makeText(this, "Menu item settings selected", Toast.LENGTH_SHORT)
-		          .show();
+	
 		  Intent intent_settings = new Intent(MainActivity.this,SettingsActivity.class);
 		  MainActivity.this.startActivity(intent_settings);
 		  break;
 		      
 	    case R.id.menu_tools:
-		      Toast.makeText(this, "Menu item tools selected", Toast.LENGTH_SHORT)
-		          .show();
+
 		      Intent intent_tools = new Intent(MainActivity.this,ToolsActivity.class);
 			  MainActivity.this.startActivity(intent_tools);
 		      break;
 		      
 	    case R.id.menu_home:
-		      Toast.makeText(this, "Menu item home selected", Toast.LENGTH_SHORT)
-		          .show();
+
 		      break;
 	    default:
 	      break;
@@ -106,19 +101,11 @@ private LocationListener locationListener;
 			locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
 	        break;
 	      case R.id.bOff:
-	    	  Toast.makeText(this, "Trying to deactivate GPS", Toast.LENGTH_SHORT)
-	          .show();  
-	    	  locationManager.removeUpdates(locationListener);
-	    	  
-	    	  //GPs deactivation TODO rework
-	    	  /*
-	    	  Intent intent = new Intent("android.location.GPS_ENABLED_CHANGE");
-	    	  intent.putExtra("enabled", false);
-	    	  sendBroadcast(intent);	    
-	    	  */
 	    	  editMessage.setText("Before tracing, please make sure the GPS is fixed");
 	    	  editMessage.setTextColor(Color.parseColor("#000000"));
 	    	  
+	    	  System.runFinalizersOnExit(true);
+	    	  System.exit(0); 	    	  
 	        break;
 	      }
 	}
