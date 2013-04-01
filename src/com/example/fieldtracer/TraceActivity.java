@@ -88,9 +88,18 @@ private String trace_name = "";
 		//mMapFileName = "adl.map";
 		mMapFileName = "south_australia.map";
 		
-		String mMapDataPath = Environment.getExternalStorageDirectory().getPath();
-		mMapFileName = mMapDataPath + "/_FieldTracer/" + mMapFileName;
+		
+		if (SettingsActivity.getMapFile() == "") {
+			Toast.makeText(getApplicationContext(), "No map specified",Toast.LENGTH_SHORT).show();
+			String mMapDataPath = Environment.getExternalStorageDirectory().getPath();
+			mMapFileName = mMapDataPath + "/_FieldTracer/" + mMapFileName;
+		} else {
+			mMapFileName = SettingsActivity.getMapFile();
+		}
+			
+		
 		Log.v(TAG,"------------------" +"Map path is : "+ mMapFileName + "---------------------");
+		
 		mapView.setMapFile(new File(mMapFileName));
 		
 		//Add the map to the layout
@@ -105,9 +114,17 @@ private String trace_name = "";
 		LocationListener locationListener = new LocationListener() {
 			// Called when a new location is found by the network location provider.
 		    public void onLocationChanged(Location loc) {
+		    	String lati = null;
+				String longi = null;
+				String accur = null;
 		    	//Getting the time difference each time onLocationChanged is called
-		    	time_diff = (new Date()).getTime() - secondDate.getTime();	    	 		    	
-		    	editLocation.setText(loc.getLongitude() + "," + loc.getLatitude());
+		    	time_diff = (new Date()).getTime() - secondDate.getTime();	    	 	
+		    	lati = "~" + String.valueOf(loc.getLatitude()).substring(0, 6);
+		    	longi = "~" + String.valueOf(loc.getLongitude()).substring(0, 6);
+		    	accur = String.valueOf(loc.getAccuracy()).substring(0, String.valueOf(loc.getAccuracy()).indexOf(".")) + "m";
+		    	
+		    	//editLocation.setText(loc.getLongitude() + "," + loc.getLatitude());
+		    	editLocation.setText(lati+ ", " + longi + ", " + accur);
 		    	
 		    	// Used to take measurement
 		    	//writeToSDCard(loc.getLatitude() +";" +loc.getLongitude()+ ";"+ loc.getAccuracy() + ";"+ time_diff+'\n');
@@ -191,7 +208,7 @@ private String trace_name = "";
 		today.setToNow();
 		
 		//Writing file to SD card
-	    	file = new File(Environment.getExternalStorageDirectory() + "/_FieldTracer/", "POI_"+ name.replaceAll(" ", "_") +"_" + today.format("%Y%m%d-%H-%M-%S") +".txt");
+	    	file = new File(Environment.getExternalStorageDirectory() + "/_FieldTracer/", "POI_"+ name.replaceAll(" ", "_") +"_" + today.format("%Y%m%d-%H-%M-%S") +".poi");
 	        try {
 	            FileWriter fWriter = new FileWriter(file, true);
 	            str=longitude + "," + latitude + "," + accuracy + "," + name;
@@ -199,7 +216,7 @@ private String trace_name = "";
 	            fWriter.append(separator);
 	            fWriter.close();
 			} catch (Exception e) {
-				Log.e("WRITE POI TO SD", e.getMessage());
+				Log.e("Error while trying to write POI to SDCard", e.getMessage());
 			}		
 	}
 	
@@ -211,8 +228,9 @@ private String trace_name = "";
 		Time today = new Time(Time.getCurrentTimezone());
 		today.setToNow();
 		
+		
 		//Writing file to SD card
-	    	file = new File(Environment.getExternalStorageDirectory() + "/_FieldTracer/", "Trace_"+ name.replaceAll(" ", "_") +"_" + today.format("%Y%m%d") +".txt");
+	    	file = new File(Environment.getExternalStorageDirectory() + "/_FieldTracer/", "Trace_"+ name.replaceAll(" ", "_") +"_" + today.format("%Y%m%d") +".trace");
 	        try {
 	            FileWriter fWriter = new FileWriter(file, true);
 	            str=longitude + "," + latitude + "," + accuracy + "," + name;
@@ -220,7 +238,7 @@ private String trace_name = "";
 	            fWriter.append(separator);
 	            fWriter.close();
 			} catch (Exception e) {
-				Log.e("WRITE POI TO SD", e.getMessage());
+				Log.e("Error while trying to write Trace to SDCard", e.getMessage());
 			}		
 	}
 	

@@ -58,16 +58,7 @@ private LocationListener locationListener;
 		  Intent intent_settings = new Intent(MainActivity.this,SettingsActivity.class);
 		  MainActivity.this.startActivity(intent_settings);
 		  break;
-		      
-	    case R.id.menu_tools:
-
-		      Intent intent_tools = new Intent(MainActivity.this,ToolsActivity.class);
-			  MainActivity.this.startActivity(intent_tools);
-		      break;
-		      
-	    case R.id.menu_home:
-
-		      break;
+		         
 	    default:
 	      break;
 	    }
