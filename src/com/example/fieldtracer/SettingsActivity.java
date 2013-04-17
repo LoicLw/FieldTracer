@@ -22,14 +22,16 @@ import android.widget.TextView;
 public class SettingsActivity extends Activity {
 
 private String[] mFileList;
-private File mPath = new File(Environment.getExternalStorageDirectory(),"/_FieldTracer/");
+private static File mPath = new File(Environment.getExternalStorageDirectory(),"/_FieldTracer/");
 private String mChosenFile;
 private static final String FTYPE = ""; //if we want an extension filter
 private static final int DIALOG_LOAD_FILE = 1000;
 
-private static String mapFile = ""; // to be get by TraceActivity
+private static String mapFile = mPath + "/" + "south_australia.map"; // Default map
+private static String tracesRecordingType = "GPX"; // Default recording type
 
-private TextView fileChoosed = null;  
+private TextView fileChoosed = null;
+private TextView recordingTypeChoosed = null;  
 private static final String TAG = "Debug";	
 	
 	@Override
@@ -38,7 +40,12 @@ private static final String TAG = "Debug";
 		setContentView(R.layout.activity_settings);
 		// Show the Up button in the action bar.
 		setupActionBar();
+		
 		fileChoosed = (TextView) findViewById(R.id.textView1); 
+		fileChoosed.setText(mPath + "/"+ mapFile.replace(mPath.toString() + "/", ""));
+		
+		recordingTypeChoosed = (TextView) findViewById(R.id.textView2); 
+		recordingTypeChoosed.setText(tracesRecordingType);
 	}
 
 	/**
@@ -126,10 +133,25 @@ private static final String TAG = "Debug";
 	public static String getMapFile() {
 		return mapFile;
 	}
+	
+	public static String getTracesRecordingType() {
+		return tracesRecordingType;
+	}
+
 
 	public void ButtonOnSelectFile(View v){
 		// create alert dialog
 		loadFileList();
 		this.onCreateDialog(DIALOG_LOAD_FILE);
+	}
+	
+	public void ButtonOnChangeTraceRecordingType(View v){
+		if (tracesRecordingType=="GPX"){
+			tracesRecordingType="Text";
+		} else
+		if (tracesRecordingType=="Text"){
+			tracesRecordingType="GPX";
+		}
+		recordingTypeChoosed.setText(tracesRecordingType);
 	}
 }

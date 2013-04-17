@@ -106,21 +106,20 @@ private Vector <GeoPoint> coordinate_vector = new Vector<GeoPoint>();
 		
 		if (!this.myLocationOverlay.isMyLocationEnabled()) {
 			if (!this.myLocationOverlay.enableMyLocation(true)) {
-				Toast.makeText(getApplicationContext(), "Erreur de MyLocation",Toast.LENGTH_SHORT).show();
+				Toast.makeText(getApplicationContext(), "Please check that the GPS is enabled",Toast.LENGTH_SHORT).show();
 				return;
 			}
 		}
 		
 		this.mapView.getOverlays().add(this.myLocationOverlay);
 		
-		String mMapFileName = "south_australia.map"; //Default hard coded map	
-		
+		String mMapFileName = "";
 		if (SettingsActivity.getMapFile() == "") {
 			Toast.makeText(getApplicationContext(), "No map specified",Toast.LENGTH_SHORT).show();
 			String mMapDataPath = Environment.getExternalStorageDirectory().getPath();
 			mMapFileName = mMapDataPath + "/_FieldTracer/" + mMapFileName;
 		} else {
-			mMapFileName = SettingsActivity.getMapFile();
+			Log.v(TAG,"------------------" +"Map path error"+ mMapFileName + "---------------------");		
 		}			
 		
 		Log.v(TAG,"------------------" +"Map path is : "+ mMapFileName + "---------------------");		
@@ -164,8 +163,13 @@ private Vector <GeoPoint> coordinate_vector = new Vector<GeoPoint>();
 		    		mapView.getOverlays().add(listOverlay);
 		    		
 		    		//Trace recording
-		    		writeTraceText(loc.getLongitude(), loc.getLatitude(), loc.getAccuracy(), trace_name);
-		    		writeTraceGPX(loc.getLongitude(), loc.getLatitude(), loc.getAccuracy(), trace_name);
+		    		if (SettingsActivity.getTracesRecordingType()=="Text"){
+		    			writeTraceText(loc.getLongitude(), loc.getLatitude(), loc.getAccuracy(), trace_name);
+		    		} else {
+		    			if (SettingsActivity.getTracesRecordingType()=="GPX"){
+		    				writeTraceGPX(loc.getLongitude(), loc.getLatitude(), loc.getAccuracy(), trace_name);
+		    			}
+		    		}	
 		    	}		    	
 		    	secondDate = new Date();
 		    	current_loc=loc;
