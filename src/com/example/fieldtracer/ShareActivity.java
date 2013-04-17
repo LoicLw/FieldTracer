@@ -2,6 +2,11 @@ package com.example.fieldtracer;
 
 import java.io.File;
 import java.io.FilenameFilter;
+import java.util.Iterator;
+import java.util.Vector;
+
+import org.mapsforge.android.maps.overlay.Marker;
+import org.mapsforge.core.model.GeoPoint;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
@@ -9,6 +14,7 @@ import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
@@ -135,5 +141,38 @@ private static final String TAG = "Debug";
          dialog.setPositiveButton("OK", null);
          dialog.show();
     }
+
+	private Vector<File> findFile(String extension) {
+		
+		File[] entries = mPath.listFiles();
+		Vector<File> selected = new Vector<File>();
+		
+        for (int i=0; i<entries.length;i++){
+        	if (!entries[i].toString().contains((".manifest"))){        		        	
+	        	if (entries[i].toString().endsWith(extension)){
+	        		selected.add(entries[i]);
+	        	}
+        	}
+        }		
+		return selected;
+	}
 	
+	public void ButtonOnShareAll(View v){	
+		Vector<File> file_to_be_shared = new Vector<File>();
+		file_to_be_shared.addAll(findFile(".poi"));
+		file_to_be_shared.addAll(findFile(".trace"));
+		file_to_be_shared.addAll(findFile(".gpx"));
+		Iterator itr = file_to_be_shared.iterator();
+		
+		 while(itr.hasNext()){
+			 File elem = (File)itr.next();
+			 Rhizome.addFile(getBaseContext(),elem.toString());
+			 Log.v(TAG, "File added to Rhizome Store :" + elem.toString());
+		 }
+						
+		Builder dialog= new AlertDialog.Builder(this);
+        dialog.setMessage("Files added to Rhizome store");
+        dialog.setPositiveButton("OK", null);
+        dialog.show();        
+	}
 }

@@ -30,7 +30,7 @@
             android:id="@+id/textView1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="16dp"
+            android:padding="8dp"
             android:text="Please select a file" />
 
         <Button
@@ -39,7 +39,15 @@
             android:layout_height="wrap_content"
             android:onClick="ButtonOnShareFile"
             android:padding="16dp"
-            android:text="Share with Serval Mesh" />
+            android:text="Share it through Serval Mesh" />
+
+        <Button
+            android:id="@+id/button3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="ButtonOnShareAll"
+            android:padding="16dp"
+            android:text="Share all POI and traces" />
 
     </LinearLayout>
 
