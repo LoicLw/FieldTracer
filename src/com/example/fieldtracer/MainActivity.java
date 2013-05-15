@@ -99,5 +99,13 @@ private LocationListener locationListener;
 	    	  System.exit(0); 	    	  
 	        break;
 	      }
+	    
+	}
+	
+	public void TestURL(View v){
+		InternetFileCheck Tester = new InternetFileCheck();
+		Tester.execute("http://easy-project.no-ip.org/mob/get_details.php?id=1");
+ 
+
 	}
 }

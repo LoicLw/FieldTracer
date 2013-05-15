@@ -28,7 +28,7 @@ private static final String FTYPE = ""; //if we want an extension filter
 private static final int DIALOG_LOAD_FILE = 1000;
 
 private static String mapFile = mPath + "/" + "south_australia.map"; // Default map
-private static String tracesRecordingType = "GPX"; // Default recording type
+private static String tracesRecordingType = "Text"; // Default recording type
 
 private TextView fileChoosed = null;
 private TextView recordingTypeChoosed = null;  
@@ -145,13 +145,5 @@ private static final String TAG = "Debug";
 		this.onCreateDialog(DIALOG_LOAD_FILE);
 	}
 	
-	public void ButtonOnChangeTraceRecordingType(View v){
-		if (tracesRecordingType=="GPX"){
-			tracesRecordingType="Text";
-		} else
-		if (tracesRecordingType=="Text"){
-			tracesRecordingType="GPX";
-		}
-		recordingTypeChoosed.setText(tracesRecordingType);
-	}
+	
 }

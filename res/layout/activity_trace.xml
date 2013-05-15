@@ -27,15 +27,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:onClick="ButtonOnCenter"
-                android:text="-o-" />
-
-            <Button
-                android:id="@+id/button2"
-                style="?android:attr/buttonStyleSmall"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:onClick="ButtonOnPOIAdd"
-                android:text="+POI" />
+                android:text="Center" />
 
             <ToggleButton
                 android:id="@+id/toggleTrace"

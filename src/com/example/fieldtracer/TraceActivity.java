@@ -49,7 +49,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
-
+import android.os.AsyncTask;
 
 public class TraceActivity extends MapActivity {
 	
@@ -61,6 +61,12 @@ Date secondDate = new Date();
 private Long time_diff;
 private File file;
 private Location current_loc;
+	public Location getCurrent_loc() {
+		return current_loc;
+	}
+
+
+private InternetFileCheck Tester = new InternetFileCheck();
 
 // list of markers
 private MapView mapView;
@@ -68,8 +74,12 @@ private MyLocationOverlay myLocationOverlay;
 
 final Context context = this;
 private Boolean trace_toggle = false;
-private String poi_name = "";
 private String trace_name = "";
+	public String getTrace_name() {
+		return trace_name;
+	}
+
+
 private String boxText ="";
 private Vector <GeoPoint> coordinate_vector = new Vector<GeoPoint>();
 
@@ -118,14 +128,11 @@ private Vector <GeoPoint> coordinate_vector = new Vector<GeoPoint>();
 		
 		String mMapFileName = SettingsActivity.getMapFile() ;
 		if (mMapFileName != "") {
-			Toast.makeText(getApplicationContext(), "Map is " + mMapFileName,Toast.LENGTH_SHORT).show();
-			//String mMapDataPath = Environment.getExternalStorageDirectory().getPath();
-			//mMapFileName = mMapDataPath + "/_FieldTracer/" + mMapFileName;
+			Toast.makeText(getApplicationContext(), "Map is: " + mMapFileName,Toast.LENGTH_SHORT).show();
 		} else {
-			Log.v(TAG,"------------------" +"Map path error"+ mMapFileName + "---------------------");		
+			Log.v(TAG,"------------------" +"Map path error: "+ mMapFileName + "---------------------");		
 		}			
-		
-		Log.v(TAG,"------------------" +"Map path is : "+ mMapFileName + "---------------------");		
+	
 		mapView.setMapFile(new File(mMapFileName));
 		
 		//Add the map to the layout
@@ -156,7 +163,7 @@ private Vector <GeoPoint> coordinate_vector = new Vector<GeoPoint>();
 		    	//writeToSDCard(loc.getLatitude() +";" +loc.getLongitude()+ ";"+ loc.getAccuracy() + ";"+ time_diff+'\n');
 		    	
 		    	if (trace_toggle == true) {		    		
-		    		
+
 		    		//Trace drawing
 		    		coordinate_vector.add(new GeoPoint(loc.getLatitude(),loc.getLongitude()));		    		
 		    		Polyline polyline = createPolyline(coordinate_vector);		    		
@@ -167,12 +174,12 @@ private Vector <GeoPoint> coordinate_vector = new Vector<GeoPoint>();
 		    		
 		    		//Trace recording
 		    		if (SettingsActivity.getTracesRecordingType()=="Text"){
-		    			writeTraceText(loc.getLongitude(), loc.getLatitude(), loc.getAccuracy(), trace_name);
-		    		} else {
-		    			if (SettingsActivity.getTracesRecordingType()=="GPX"){
-		    				writeTraceGPX(loc.getLongitude(), loc.getLatitude(), loc.getAccuracy(), trace_name);
+		    			if (Tester.getStatus() != AsyncTask.Status.RUNNING){
+		    				Tester = new InternetFileCheck();
+		    				Tester.execute("http://192.168.100.1:4110/rssi.csv", TraceActivity.this);
 		    			}
-		    		}	
+		    		} 
+		    		
 		    	}		    	
 		    	secondDate = new Date();
 		    	current_loc=loc;
@@ -241,94 +248,30 @@ private Vector <GeoPoint> coordinate_vector = new Vector<GeoPoint>();
 		}		
 	}
 	
-	private void writePOI(Double longitude, Double latitude, Float accuracy, String name) {
-		String separator = System.getProperty("line.separator");
-		String str = "";
-		//Get the time to date the POI
-		Time today = new Time(Time.getCurrentTimezone());
-		today.setToNow();		
-		//Writing file to SD card
-	    	file = new File(Environment.getExternalStorageDirectory() + "/_FieldTracer/", "POI_"+ name.replaceAll(" ", "_") +"_" + today.format("%Y%m%d-%H-%M-%S") +".poi");
-	        try {
-	            FileWriter fWriter = new FileWriter(file, true);
-	            str=longitude + "," + latitude + "," + accuracy + "," + name;
-	            fWriter.append(str.toString().trim());
-	            fWriter.append(separator);
-	            fWriter.close();
-			} catch (Exception e) {
-				Log.e("Error while trying to write POI to SDCard", e.getMessage());
-			}		
-	}
 	
-	
-	private void writeTraceText(Double longitude, Double latitude, Float accuracy, String name) {
+
+	public void writeTraceText(Double longitude, Double latitude, Float accuracy, String name, String content_http ) {
+		
 		String separator = System.getProperty("line.separator");
 		String str = "";
 		//Get the time to date the Trace
 		Time today = new Time(Time.getCurrentTimezone());
 		today.setToNow();
 		//Writing file to SD card
-	    	file = new File(Environment.getExternalStorageDirectory() + "/_FieldTracer/", "Trace_"+ name.replaceAll(" ", "_") +"_" + today.format("%Y%m%d") +".trace");
+	    	file = new File(Environment.getExternalStorageDirectory() + "/_FieldTracer/", "SignalTrace_"+ name.replaceAll(" ", "_") +"_" + today.format("%Y%m%d") +".trace");
 	        try {
 	            FileWriter fWriter = new FileWriter(file, true);
-	            str=longitude + "," + latitude + "," + accuracy + "," + name;
+	            
+	            str=longitude + "," + latitude + "," + accuracy + "," + name + "," + content_http;
 	            fWriter.append(str.toString().trim());
 	            fWriter.append(separator);
 	            fWriter.close();
 			} catch (Exception e) {
-				Log.e("Error while trying to write text trace to SDCard", e.getMessage());
-			}		
-	}
-	
-	private void closeTraceGPX(String name) {
-		String separator = System.getProperty("line.separator");
-		//Get the time to date the Trace
-		Time today = new Time(Time.getCurrentTimezone());
-		today.setToNow();
-		//Writing file to SD card
-	    	file = new File(Environment.getExternalStorageDirectory() + "/_FieldTracer/", "Trace_"+ name.replaceAll(" ", "_") +"_" + today.format("%Y%m%d") +".gpx");
-	        try {
-	            FileWriter fWriter = new FileWriter(file, true);
-	            if (file.exists()) {
-		            fWriter.append("</trkseg></trk></gpx>" + separator);
-		            fWriter.close();
-	            }
-			} catch (Exception e) {
-				Log.e("Error while trying to close the GPX to SDCard", e.getMessage());
+				Log.e("Error while trying to write text signal trace to SDCard", e.getMessage());
 			}		
 	}
 	
 	
-	private void writeTraceGPX(Double longitude, Double latitude, Float accuracy, String name) {
-		String separator = System.getProperty("line.separator");
-		//The time format associated with each needs to be conformed to ISO 8601 specification in UTC time 
-		DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ");
-		df.setTimeZone(TimeZone.getTimeZone("UTC"));
-		Time today = new Time(Time.getCurrentTimezone());
-		//Each trackpoint needs its own time
-		today.setToNow();		
-		//Writing file to SD card
-	    	file = new File(Environment.getExternalStorageDirectory() + "/_FieldTracer/", "Trace_"+ name.replaceAll(" ", "_") +"_" + today.format("%Y%m%d") +".gpx");
-	        try {
-	            FileWriter fWriter = new FileWriter(file, true);	  
-	            if (file.length()==0) {
-		    		fWriter.append("<?xml version=\"1.0\" " +
-		    				"encoding=\"UTF-8\"?>" + "\n" +
-		    				"<gpx version=\"1.0\" " +
-		    				"creator=\"FieldTracer\"  " +
-		    				" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns=\"http://www.topografix.com/GPX/1/0\"" +
-		    				" xsi:schemaLocation=\"http://www.topografix.com/GPX/1/0 http://www.topografix.com/GPX/1/0/gpx.xsd\">"
-		    				+ separator +
-		    				"<trk><name>\"" + name +
-		    				"\"</name><trkseg>" + separator);
-		    		}
-		    	String nowAsString = df.format(new Date());	            
-	            fWriter.append("<trkpt lat=\"" + latitude + "\" lon=\"" + longitude + "\"><time>" + nowAsString.replace("+0000", "Z") + "</time></trkpt>" + separator);	            
-	            fWriter.close();
-			} catch (Exception e) {
-				Log.e("Error while trying to write GPX to SDCard", e.getMessage());
-			}		
-	}
 	
 	public void ButtonOnCenter(View v ) {
 		if (current_loc!=null){
@@ -345,60 +288,6 @@ private Vector <GeoPoint> coordinate_vector = new Vector<GeoPoint>();
 		 Toast.makeText(this, "Please wait for the GPS to acquire a position", Toast.LENGTH_LONG).show();
 	}
 	
-	public void ButtonOnPOIAdd(View v){		
-		if (current_loc!=null){
-			// get prompts.xml view
-			LayoutInflater li = LayoutInflater.from(context);
-			View promptsView = li.inflate(R.layout.poi_prompt, null);
-	
-			AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
-					context);
-	
-			// set prompts.xml to alertdialog builder
-			alertDialogBuilder.setView(promptsView);
-	
-			final EditText userInput = (EditText) promptsView
-					.findViewById(R.id.editTextDialogUserInput);
-	
-			// set dialog message
-			alertDialogBuilder
-				.setCancelable(false)
-				.setPositiveButton("OK",
-				  new DialogInterface.OnClickListener() {
-				    public void onClick(DialogInterface dialog,int id) {
-						// get user input and set it to result
-						// edit text
-						poi_name = userInput.getText().toString();
-						try{								
-							writePOI(current_loc.getLongitude(), current_loc.getLatitude(),current_loc.getAccuracy(), poi_name);
-							
-							Marker marker1 = createMarker(R.drawable.marker_green, new GeoPoint(current_loc.getLatitude(),current_loc.getLongitude()));							 
-							ListOverlay listOverlay = new ListOverlay();
-							List<OverlayItem> overlayItems = listOverlay.getOverlayItems();							
-							overlayItems.add(marker1);
-							mapView.getOverlays().add(listOverlay);
-														
-						}
-						catch (Exception e) {
-							Log.e("Error while trying to write Poi and display an Overlay", e.getMessage());						
-						}	
-				    }
-				  })
-				.setNegativeButton("Cancel",
-				  new DialogInterface.OnClickListener() {
-				    public void onClick(DialogInterface dialog,int id) {
-					dialog.cancel();
-				    }
-				  });
-			// create alert dialog
-			AlertDialog alertDialog = alertDialogBuilder.create();
-			// show it
-			alertDialog.show();
-			
-		}	else {
-			messageNoLocation();
-		}
-	}
 	
 	public void onTraceToggleClicked(View view) {
 			 
@@ -421,7 +310,6 @@ private Vector <GeoPoint> coordinate_vector = new Vector<GeoPoint>();
 				final EditText userInput = (EditText) promptsView
 						.findViewById(R.id.editTextDialogUserInput);
 
-
 	 
 				// set dialog message
 				alertDialogBuilder
@@ -431,33 +319,7 @@ private Vector <GeoPoint> coordinate_vector = new Vector<GeoPoint>();
 					    public void onClick(DialogInterface dialog,int id) {
 					    	trace_name = userInput.getText().toString();
 					    	trace_toggle=true;
-					    	
-					    	//Cumbersome way of getting checkedBox title into GPX tag
-					    	boxText = "";
-							
-							Vector <CheckBox> vect=new Vector<CheckBox>();
-							final CheckBox a = (CheckBox)promptsView.findViewById(R.id.checkBox1);
-							vect.addElement(a);
-							final CheckBox b = (CheckBox)promptsView.findViewById(R.id.checkBox2);
-							vect.addElement(b);
-							final CheckBox c = (CheckBox)promptsView.findViewById(R.id.checkBox3);
-							vect.addElement(c);
-							final CheckBox d = (CheckBox)promptsView.findViewById(R.id.checkBox4);
-							vect.addElement(d);
-							final CheckBox e = (CheckBox)promptsView.findViewById(R.id.checkBox5);
-							vect.addElement(e);
-							 
-							for(int i = 0; i < vect.size(); i++){
-								   if (vect.get(i).isChecked()){
-									   if (boxText == ""){
-										   boxText = vect.get(i).getText().toString();
-									   }
-									   else{
-										   boxText = boxText + "," + vect.get(i).getText().toString();
-									   }
-								   }
-							}	
-					    	
+ 	
 					    }
 					  })
 					.setNegativeButton("Cancel",
@@ -478,7 +340,7 @@ private Vector <GeoPoint> coordinate_vector = new Vector<GeoPoint>();
 		    	trace_toggle=false;
 		    	coordinate_vector.clear();
 		    	if (trace_name!=""){
-		    		closeTraceGPX(trace_name);
+		    		//closeTraceGPX(trace_name);
 		    	}		    	
 		    }		    	
 	    }	else {
