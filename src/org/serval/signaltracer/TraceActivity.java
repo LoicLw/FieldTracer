@@ -1,14 +1,9 @@
-package com.example.fieldtracer;
+package org.serval.signaltracer;
 
 import java.io.File;
 import java.io.FileWriter;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Arrays;
 import java.util.Date;
-import java.util.Enumeration;
 import java.util.List;
-import java.util.TimeZone;
 import java.util.Vector;
 
 import org.mapsforge.android.maps.MapActivity;
@@ -21,9 +16,10 @@ import org.mapsforge.android.maps.overlay.PolygonalChain;
 import org.mapsforge.android.maps.overlay.Polyline;
 import org.mapsforge.core.model.GeoPoint;
 
+import org.serval.signaltracer.R;
+
 import android.annotation.TargetApi;
 import android.app.AlertDialog;
-import android.app.AlertDialog.Builder;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Color;
@@ -33,6 +29,7 @@ import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
@@ -44,12 +41,10 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
-import android.os.AsyncTask;
 
 public class TraceActivity extends MapActivity {
 	
@@ -66,7 +61,7 @@ private Location current_loc;
 	}
 
 
-private InternetFileCheck Tester = new InternetFileCheck();
+private HTTPFileCheck Tester = new HTTPFileCheck();
 
 // list of markers
 private MapView mapView;
@@ -130,7 +125,7 @@ private Vector <GeoPoint> coordinate_vector = new Vector<GeoPoint>();
 		if (mMapFileName != "") {
 			Toast.makeText(getApplicationContext(), "Map is: " + mMapFileName,Toast.LENGTH_SHORT).show();
 		} else {
-			Log.v(TAG,"------------------" +"Map path error: "+ mMapFileName + "---------------------");		
+			Log.v(TAG,"Map path error: "+ mMapFileName);		
 		}			
 	
 		mapView.setMapFile(new File(mMapFileName));
@@ -156,12 +151,9 @@ private Vector <GeoPoint> coordinate_vector = new Vector<GeoPoint>();
 		    	longi = "~" + String.valueOf(loc.getLongitude()).substring(0, 6);
 		    	accur = String.valueOf(loc.getAccuracy()).substring(0, String.valueOf(loc.getAccuracy()).indexOf(".")) + "m";
 		    	
-		    	//editLocation.setText(loc.getLongitude() + "," + loc.getLatitude());
 		    	editLocation.setText(lati+ ", " + longi + ", " + accur);
 		    	
-		    	// Used to take measurement
-		    	//writeToSDCard(loc.getLatitude() +";" +loc.getLongitude()+ ";"+ loc.getAccuracy() + ";"+ time_diff+'\n');
-		    	
+		    		
 		    	if (trace_toggle == true) {		    		
 
 		    		//Trace drawing
@@ -175,7 +167,7 @@ private Vector <GeoPoint> coordinate_vector = new Vector<GeoPoint>();
 		    		//Trace recording
 		    		if (SettingsActivity.getTracesRecordingType()=="Text"){
 		    			if (Tester.getStatus() != AsyncTask.Status.RUNNING){
-		    				Tester = new InternetFileCheck();
+		    				Tester = new HTTPFileCheck();
 		    				Tester.execute("http://192.168.100.1:4110/rssi.csv", TraceActivity.this);
 		    			}
 		    		} 

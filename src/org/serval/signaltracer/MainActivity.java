@@ -1,4 +1,6 @@
-package com.example.fieldtracer;
+package org.serval.signaltracer;
+
+import org.serval.signaltracer.R;
 
 import android.app.Activity;
 import android.content.Context;
@@ -45,12 +47,6 @@ private LocationListener locationListener;
 	      //Starting the new activity through an intent
 	      Intent intent_trace = new Intent(MainActivity.this,TraceActivity.class);
 	      MainActivity.this.startActivity(intent_trace);
-	      break;
-	      
-	    case R.id.menu_share:
-
-	      Intent intent_share = new Intent(MainActivity.this,ShareActivity.class);
-	      MainActivity.this.startActivity(intent_share);
 	      break;
 
 	    case R.id.menu_settings:
@@ -102,10 +98,4 @@ private LocationListener locationListener;
 	    
 	}
 	
-	public void TestURL(View v){
-		InternetFileCheck Tester = new InternetFileCheck();
-		Tester.execute("http://easy-project.no-ip.org/mob/get_details.php?id=1");
- 
-
-	}
 }

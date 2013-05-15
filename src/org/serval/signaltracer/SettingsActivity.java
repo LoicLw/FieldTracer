@@ -1,12 +1,9 @@
-package com.example.fieldtracer;
+package org.serval.signaltracer;
 
 import java.io.File;
 import java.io.FilenameFilter;
-import java.util.Iterator;
-import java.util.Vector;
 
-import org.mapsforge.android.maps.overlay.Marker;
-import org.mapsforge.core.model.GeoPoint;
+import org.serval.signaltracer.R;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
@@ -14,7 +11,6 @@ import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
 import android.app.Dialog;
 import android.content.DialogInterface;
-import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
@@ -25,27 +21,33 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
+public class SettingsActivity extends Activity {
 
-
-public class ShareActivity extends Activity {
-
-//In an Activity
 private String[] mFileList;
-private File mPath = new File(Environment.getExternalStorageDirectory(),"/_FieldTracer/");
+private static File mPath = new File(Environment.getExternalStorageDirectory(),"/_FieldTracer/");
 private String mChosenFile;
 private static final String FTYPE = ""; //if we want an extension filter
-private static final int DIALOG_LOAD_FILE = 1000;	
+private static final int DIALOG_LOAD_FILE = 1000;
 
-private TextView fileChoosed = null;  
-private static final String TAG = "Debug";
+private static String mapFile = mPath + "/" + "south_australia.map"; // Default map
+private static String tracesRecordingType = "Text"; // Default recording type
 
+private TextView fileChoosed = null;
+private TextView recordingTypeChoosed = null;  
+private static final String TAG = "Debug";	
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_share);
+		setContentView(R.layout.activity_settings);
 		// Show the Up button in the action bar.
 		setupActionBar();
-		fileChoosed = (TextView) findViewById(R.id.textView1);   
+		
+		fileChoosed = (TextView) findViewById(R.id.textView1); 
+		fileChoosed.setText(mPath + "/"+ mapFile.replace(mPath.toString() + "/", ""));
+		
+		recordingTypeChoosed = (TextView) findViewById(R.id.textView2); 
+		recordingTypeChoosed.setText(tracesRecordingType);
 	}
 
 	/**
@@ -61,7 +63,7 @@ private static final String TAG = "Debug";
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.share, menu);
+		getMenuInflater().inflate(R.menu.settings, menu);
 		return true;
 	}
 
@@ -119,7 +121,9 @@ private static final String TAG = "Debug";
 	                public void onClick(DialogInterface dialog, int which) {
 	                    mChosenFile = mFileList[which];
 	                    //you can do stuff with the file here too
-	                    fileChoosed.setText(mPath + "/" + mChosenFile);   
+	                    mapFile = mPath + "/" + mChosenFile;
+	                    fileChoosed.setText(mapFile);  
+	                    
 	                }
 	            });
 	            break;
@@ -127,52 +131,21 @@ private static final String TAG = "Debug";
 	    dialog = builder.show();
 	    return dialog;
 	}
+
+	public static String getMapFile() {
+		return mapFile;
+	}
 	
+	public static String getTracesRecordingType() {
+		return tracesRecordingType;
+	}
+
+
 	public void ButtonOnSelectFile(View v){
 		// create alert dialog
 		loadFileList();
 		this.onCreateDialog(DIALOG_LOAD_FILE);
 	}
-
-	public void ButtonOnShareFile(View v){
-		Rhizome.addFile(getBaseContext(),mPath + "/" + mChosenFile);
-		 Builder dialog= new AlertDialog.Builder(this);
-         dialog.setMessage("File added to Rhizome store");
-         dialog.setPositiveButton("OK", null);
-         dialog.show();
-    }
-
-	private Vector<File> findFile(String extension) {
-		
-		File[] entries = mPath.listFiles();
-		Vector<File> selected = new Vector<File>();
-		
-        for (int i=0; i<entries.length;i++){
-        	if (!entries[i].toString().contains((".manifest"))){        		        	
-	        	if (entries[i].toString().endsWith(extension)){
-	        		selected.add(entries[i]);
-	        	}
-        	}
-        }		
-		return selected;
-	}
 	
-	public void ButtonOnShareAll(View v){	
-		Vector<File> file_to_be_shared = new Vector<File>();
-		file_to_be_shared.addAll(findFile(".poi"));
-		file_to_be_shared.addAll(findFile(".trace"));
-		file_to_be_shared.addAll(findFile(".gpx"));
-		Iterator itr = file_to_be_shared.iterator();
-		
-		 while(itr.hasNext()){
-			 File elem = (File)itr.next();
-			 Rhizome.addFile(getBaseContext(),elem.toString());
-			 Log.v(TAG, "File added to Rhizome Store :" + elem.toString());
-		 }
-						
-		Builder dialog= new AlertDialog.Builder(this);
-        dialog.setMessage("Files added to Rhizome store");
-        dialog.setPositiveButton("OK", null);
-        dialog.show();        
-	}
+	
 }
