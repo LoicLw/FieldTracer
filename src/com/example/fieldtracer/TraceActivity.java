@@ -23,6 +23,7 @@ import org.mapsforge.core.model.GeoPoint;
 
 import android.annotation.TargetApi;
 import android.app.AlertDialog;
+import android.app.AlertDialog.Builder;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Color;
@@ -43,6 +44,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -68,6 +70,7 @@ final Context context = this;
 private Boolean trace_toggle = false;
 private String poi_name = "";
 private String trace_name = "";
+private String boxText ="";
 private Vector <GeoPoint> coordinate_vector = new Vector<GeoPoint>();
 
 	private Marker createMarker(int resourceIdentifier, GeoPoint geoPoint) {
@@ -113,11 +116,11 @@ private Vector <GeoPoint> coordinate_vector = new Vector<GeoPoint>();
 		
 		this.mapView.getOverlays().add(this.myLocationOverlay);
 		
-		String mMapFileName = "";
-		if (SettingsActivity.getMapFile() == "") {
-			Toast.makeText(getApplicationContext(), "No map specified",Toast.LENGTH_SHORT).show();
-			String mMapDataPath = Environment.getExternalStorageDirectory().getPath();
-			mMapFileName = mMapDataPath + "/_FieldTracer/" + mMapFileName;
+		String mMapFileName = SettingsActivity.getMapFile() ;
+		if (mMapFileName != "") {
+			Toast.makeText(getApplicationContext(), "Map is " + mMapFileName,Toast.LENGTH_SHORT).show();
+			//String mMapDataPath = Environment.getExternalStorageDirectory().getPath();
+			//mMapFileName = mMapDataPath + "/_FieldTracer/" + mMapFileName;
 		} else {
 			Log.v(TAG,"------------------" +"Map path error"+ mMapFileName + "---------------------");		
 		}			
@@ -398,14 +401,16 @@ private Vector <GeoPoint> coordinate_vector = new Vector<GeoPoint>();
 	}
 	
 	public void onTraceToggleClicked(View view) {
-		if (current_loc!=null){
+			 
+		//if (current_loc!=null){
+		if (true){
 		    // Is the toggle on?
 		    boolean on = ((ToggleButton) view).isChecked();
 		    
 		    if (on) {
 		    	// get prompts.xml view
 				LayoutInflater li = LayoutInflater.from(context);
-				View promptsView = li.inflate(R.layout.poi_prompt, null);
+				final View promptsView = li.inflate(R.layout.trace_prompt, null);
 	
 				AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
 						context);
@@ -415,7 +420,9 @@ private Vector <GeoPoint> coordinate_vector = new Vector<GeoPoint>();
 	
 				final EditText userInput = (EditText) promptsView
 						.findViewById(R.id.editTextDialogUserInput);
-	
+
+
+	 
 				// set dialog message
 				alertDialogBuilder
 					.setCancelable(false)
@@ -424,6 +431,33 @@ private Vector <GeoPoint> coordinate_vector = new Vector<GeoPoint>();
 					    public void onClick(DialogInterface dialog,int id) {
 					    	trace_name = userInput.getText().toString();
 					    	trace_toggle=true;
+					    	
+					    	//Cumbersome way of getting checkedBox title into GPX tag
+					    	boxText = "";
+							
+							Vector <CheckBox> vect=new Vector<CheckBox>();
+							final CheckBox a = (CheckBox)promptsView.findViewById(R.id.checkBox1);
+							vect.addElement(a);
+							final CheckBox b = (CheckBox)promptsView.findViewById(R.id.checkBox2);
+							vect.addElement(b);
+							final CheckBox c = (CheckBox)promptsView.findViewById(R.id.checkBox3);
+							vect.addElement(c);
+							final CheckBox d = (CheckBox)promptsView.findViewById(R.id.checkBox4);
+							vect.addElement(d);
+							final CheckBox e = (CheckBox)promptsView.findViewById(R.id.checkBox5);
+							vect.addElement(e);
+							 
+							for(int i = 0; i < vect.size(); i++){
+								   if (vect.get(i).isChecked()){
+									   if (boxText == ""){
+										   boxText = vect.get(i).getText().toString();
+									   }
+									   else{
+										   boxText = boxText + "," + vect.get(i).getText().toString();
+									   }
+								   }
+							}	
+					    	
 					    }
 					  })
 					.setNegativeButton("Cancel",
@@ -438,7 +472,8 @@ private Vector <GeoPoint> coordinate_vector = new Vector<GeoPoint>();
 					  });	
 				// create alert dialog and show it
 				AlertDialog alertDialog = alertDialogBuilder.create();
-				alertDialog.show();		    	
+				alertDialog.show();		
+
 		    } else {
 		    	trace_toggle=false;
 		    	coordinate_vector.clear();
@@ -449,5 +484,7 @@ private Vector <GeoPoint> coordinate_vector = new Vector<GeoPoint>();
 	    }	else {
 	    	messageNoLocation();
 	    }   
+		
 	}
+	
 }
