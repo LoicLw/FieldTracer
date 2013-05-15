@@ -1,12 +1,10 @@
-package com.example.fieldtracer;
+package org.serval.servalmaps.fieldtracer;
 
 import java.io.File;
 import java.io.FileWriter;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.Arrays;
 import java.util.Date;
-import java.util.Enumeration;
 import java.util.List;
 import java.util.TimeZone;
 import java.util.Vector;
@@ -23,7 +21,6 @@ import org.mapsforge.core.model.GeoPoint;
 
 import android.annotation.TargetApi;
 import android.app.AlertDialog;
-import android.app.AlertDialog.Builder;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Color;

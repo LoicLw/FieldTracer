@@ -1,4 +1,4 @@
-package com.example.fieldtracer;
+package org.serval.servalmaps.fieldtracer;
 
 import android.app.Activity;
 import android.content.Context;
