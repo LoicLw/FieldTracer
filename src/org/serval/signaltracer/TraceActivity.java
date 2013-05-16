@@ -254,7 +254,7 @@ private Vector <GeoPoint> coordinate_vector = new Vector<GeoPoint>();
 	        try {
 	            FileWriter fWriter = new FileWriter(file, true);
 	            
-	            str=longitude + "," + latitude + "," + accuracy + "," + name + "," + content_http;
+	            str=longitude + ";" + latitude + ";" + accuracy + ";" + name + ";" + content_http;
 	            fWriter.append(str.toString().trim());
 	            fWriter.append(separator);
 	            fWriter.close();
