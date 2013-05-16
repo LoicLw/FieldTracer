@@ -1,13 +1,24 @@
 package org.serval.servalmaps.fieldtracer;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.AlertDialog.Builder;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.AssetManager;
 import android.graphics.Color;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.os.Environment;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -24,7 +35,14 @@ private LocationListener locationListener;
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+
+		//Copy a base map for Adelaide
+		createDirIfNotExists("_FieldTracer");
+		File file = new File(Environment.getExternalStorageDirectory().getPath() + "/_FieldTracer/adelaide.map");
 		
+		if(!file.exists()){
+			copyAssets();
+		}
 		editMessage = (TextView) findViewById(R.id.textView2);  
 	}
 	
@@ -34,6 +52,7 @@ private LocationListener locationListener;
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.main, menu);
+		
 		return true;
 	}
 	
@@ -99,5 +118,51 @@ private LocationListener locationListener;
 	    	  System.exit(0); 	    	  
 	        break;
 	      }
+	}
+	
+	public static boolean createDirIfNotExists(String path) {
+	    boolean ret = true;
+
+	    File file = new File(Environment.getExternalStorageDirectory(), path);
+	    if (!file.exists()) {
+	        if (!file.mkdirs()) {
+	            Log.e("Log :: ", "Problem creating folder");
+	            ret = false;
+	        }
+	    }
+	    return ret;
+	}
+	
+	private void copyAssets() {
+	    AssetManager assetManager = getAssets();
+	    String[] files = null;
+	    try {
+	        files = assetManager.list("");
+	    } catch (IOException e) {
+	        Log.e("tag", "Failed to get asset file list.", e);
+	    }
+	    for(String filename : files) {
+	        InputStream in = null;
+	        OutputStream out = null;
+	        try {
+	          in = assetManager.open(filename);
+	          out = new FileOutputStream(Environment.getExternalStorageDirectory().getPath() + "/_FieldTracer/" + filename);
+	          copyFile(in, out);
+	          in.close();
+	          in = null;
+	          out.flush();
+	          out.close();
+	          out = null;
+	        } catch(IOException e) {
+	            Log.e("tag", "Failed to copy asset file: " + filename, e);
+	        }       
+	    }
+	}
+	private void copyFile(InputStream in, OutputStream out) throws IOException {
+	    byte[] buffer = new byte[1024];
+	    int read;
+	    while((read = in.read(buffer)) != -1){
+	      out.write(buffer, 0, read);
+	    }
 	}
 }

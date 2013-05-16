@@ -61,6 +61,7 @@ public class Rhizome {
 		
 
 		// build the intent
+		// Note : don't know when or if that worked
 		Intent mIntent = new Intent("org.servalproject.rhizome.ADD_FILE");
 
 		mIntent.putExtra("path", filePath);
