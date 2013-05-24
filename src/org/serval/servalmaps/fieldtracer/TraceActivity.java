@@ -71,21 +71,21 @@ private String trace_type = "Default_trace_type";
 private String boxText ="";
 private Vector <GeoPoint> coordinate_vector = new Vector<GeoPoint>();
 
-	private Marker createMarker(int resourceIdentifier, GeoPoint geoPoint) {
-		Drawable drawable = getResources().getDrawable(resourceIdentifier);
-		return new Marker(geoPoint, Marker.boundCenterBottom(drawable));
-	}
-	
-	private static Polyline createPolyline(Vector geoPoints) {				
-		PolygonalChain polygonalChain = new PolygonalChain(geoPoints);		
-		Paint paintStroke = new Paint(Paint.ANTI_ALIAS_FLAG);
-		paintStroke.setStyle(Paint.Style.STROKE);
-		paintStroke.setColor(Color.MAGENTA);
-		paintStroke.setAlpha(128);
-		paintStroke.setStrokeWidth(7);
-		paintStroke.setPathEffect(new DashPathEffect(new float[] { 25, 15 }, 0));
-		return new Polyline(polygonalChain, paintStroke);
-	}
+private Marker createMarker(int resourceIdentifier, GeoPoint geoPoint) {
+	Drawable drawable = getResources().getDrawable(resourceIdentifier);
+	return new Marker(geoPoint, Marker.boundCenterBottom(drawable));
+}
+
+private static Polyline createPolyline(Vector geoPoints) {				
+	PolygonalChain polygonalChain = new PolygonalChain(geoPoints);		
+	Paint paintStroke = new Paint(Paint.ANTI_ALIAS_FLAG);
+	paintStroke.setStyle(Paint.Style.STROKE);
+	paintStroke.setColor(Color.MAGENTA);
+	paintStroke.setAlpha(128);
+	paintStroke.setStrokeWidth(7);
+	paintStroke.setPathEffect(new DashPathEffect(new float[] { 25, 15 }, 0));
+	return new Polyline(polygonalChain, paintStroke);
+}
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
