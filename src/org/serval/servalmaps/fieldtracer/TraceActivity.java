@@ -41,6 +41,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -93,7 +94,7 @@ private static Polyline createPolyline(Vector geoPoints) {
 		setContentView(R.layout.activity_trace);
 		// Show the Up button in the action bar.
 		setupActionBar();
-		editLocation = (TextView) findViewById(R.id.textView1);   
+		editLocation = (TextView) findViewById(R.id.textView1);    
 		
 		//Mapsforge objects
 		mapView = new MapView(this);
@@ -127,7 +128,7 @@ private static Polyline createPolyline(Vector geoPoints) {
 		mapView.setMapFile(new File(mMapFileName));
 		
 		//Add the map to the layout
-		ViewGroup layout = (ViewGroup) findViewById(R.id.linearLayout);
+		ViewGroup layout = (ViewGroup) findViewById(R.id.linearLayout2);
 		layout.addView(mapView);
 
 	//GPS acquisition part

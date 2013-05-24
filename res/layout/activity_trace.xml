@@ -6,7 +6,7 @@
     tools:context=".TraceActivity" >
 
     <LinearLayout
-        android:id="@+id/linearLayout"
+        android:id="@+id/linearLayout2"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_alignParentBottom="true"
@@ -21,42 +21,70 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content" >
 
-            <Button
-                android:id="@+id/button1"
-                style="?android:attr/buttonStyleSmall"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:onClick="ButtonOnCenter"
-                android:text="-o-" />
-
-            <Button
-                android:id="@+id/button2"
-                style="?android:attr/buttonStyleSmall"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:onClick="ButtonOnPOIAdd"
-                android:text="+POI" />
-
-            <ToggleButton
-                android:id="@+id/toggleTrace"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:onClick="onTraceToggleClicked"
-                android:text="ToggleButton"
-                android:textOff="+Trace"
-                android:textOn="Stop" />
-
-            <TextView
-                android:id="@+id/textView1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="16dp"
-                android:text="Waiting for the GPS."
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:textSize="10sp" />
-
         </LinearLayout>
 
     </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/relativeLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true" >
+
+        <LinearLayout
+            android:id="@id/linearLayout2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:orientation="vertical" >
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/button1"
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            
+            android:onClick="ButtonOnCenter"
+            android:text="-o-" />
+        
+
+        <Button
+            android:id="@+id/button2"
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/button1"
+            android:onClick="ButtonOnPOIAdd"
+            android:text="+POI" />
+
+        <ToggleButton
+            android:id="@+id/toggleTrace"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="onTraceToggleClicked"
+            android:layout_toRightOf="@+id/button2"
+            android:text="ToggleButton"
+            android:textOff="+Trace"
+            android:textOn="Stop" />
+
+        <TextView
+            android:id="@+id/textView1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/toggleTrace"
+            android:padding="16dp"
+            android:text="Waiting for the GPS."
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textSize="10sp" />
+
+    </RelativeLayout>
 
 </RelativeLayout>
