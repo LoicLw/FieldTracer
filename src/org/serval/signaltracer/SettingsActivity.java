@@ -29,7 +29,7 @@ private String mChosenFile;
 private static final String FTYPE = ""; //if we want an extension filter
 private static final int DIALOG_LOAD_FILE = 1000;
 
-private static String mapFile = mPath + "/" + "south_australia.map"; // Default map
+private static String mapFile = mPath + "/" + "adelaide.map"; // Default map
 private static String tracesRecordingType = "Text"; // Default recording type
 
 private TextView fileChoosed = null;

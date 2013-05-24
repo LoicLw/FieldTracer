@@ -128,6 +128,7 @@ private Vector <GeoPoint> coordinate_vector = new Vector<GeoPoint>();
 			Log.v(TAG,"Map path error: "+ mMapFileName);		
 		}			
 	
+		Log.v(TAG, "Map: " + mMapFileName);
 		mapView.setMapFile(new File(mMapFileName));
 		
 		//Add the map to the layout
