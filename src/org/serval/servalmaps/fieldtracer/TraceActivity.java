@@ -67,6 +67,7 @@ final Context context = this;
 private Boolean trace_toggle = false;
 private String poi_name = "";
 private String trace_name = "";
+private String trace_type = "Default_trace_type";
 private String boxText ="";
 private Vector <GeoPoint> coordinate_vector = new Vector<GeoPoint>();
 
@@ -316,6 +317,7 @@ private Vector <GeoPoint> coordinate_vector = new Vector<GeoPoint>();
 		    				" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns=\"http://www.topografix.com/GPX/1/0\"" +
 		    				" xsi:schemaLocation=\"http://www.topografix.com/GPX/1/0 http://www.topografix.com/GPX/1/0/gpx.xsd\">"
 		    				+ separator +
+		    				"<metadata><name>\"" + trace_type + "\"</name></metadata>" + separator +
 		    				"<trk><name>\"" + name +
 		    				"\"</name><trkseg>" + separator);
 		    		}
@@ -454,6 +456,7 @@ private Vector <GeoPoint> coordinate_vector = new Vector<GeoPoint>();
 									   }
 								   }
 							}	
+							trace_type = boxText;
 					    	
 					    }
 					  })
