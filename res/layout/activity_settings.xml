@@ -32,7 +32,7 @@
                     android:id="@+id/textView3"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Current map is stored at:"
+                    android:text="Current map in usage is:"
                     android:textAppearance="?android:attr/textAppearanceMedium" />
 
                 <TextView
@@ -86,7 +86,23 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:onClick="ButtonOnGetMaps"
-                    android:text="Get maps from users" />
+                    android:text="Download distant maps from Serval users" />
+
+                <TextView
+                    android:id="@+id/textView6"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:text="Visualize local and other users maps"
+                    android:textAppearance="?android:attr/textAppearanceMedium" />
+
+                <Button
+                    android:id="@+id/button4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:onClick="ButtonOnVisualize"
+                    android:text="Visualize local and distant maps" />
 
             </LinearLayout>
         </ScrollView>

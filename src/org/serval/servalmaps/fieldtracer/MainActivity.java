@@ -133,7 +133,7 @@ private LocationListener locationListener;
 	    return ret;
 	}
 	
-	private void copyAssets() {
+	public void copyAssets() {
 	    AssetManager assetManager = getAssets();
 	    String[] files = null;
 	    try {

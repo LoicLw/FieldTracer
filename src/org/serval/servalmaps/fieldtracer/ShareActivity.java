@@ -5,6 +5,8 @@ import java.io.FilenameFilter;
 import java.util.Iterator;
 import java.util.Vector;
 
+import org.serval.servalmaps.fieldtracer.utils.Rhizome;
+
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.AlertDialog;

@@ -51,10 +51,8 @@
             style="?android:attr/buttonStyleSmall"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            
             android:onClick="ButtonOnCenter"
-            android:text="-o-" />
-        
+            android:text="-ɸ-" />
 
         <Button
             android:id="@+id/button2"

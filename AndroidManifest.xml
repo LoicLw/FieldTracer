@@ -5,14 +5,15 @@
     android:versionName="1.0" >
 
     <uses-sdk
-        android:minSdkVersion="7"
+        android:minSdkVersion="11"
         android:targetSdkVersion="17" />
-    <uses-permission android:name="android.permission.ACCESS_MOCK_LOCATION"/>
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
-    <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="org.servalproject.rhizome.ADD_FILE"/>
+
+    <uses-permission android:name="android.permission.ACCESS_MOCK_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="org.servalproject.rhizome.ADD_FILE" />
 
     <application
         android:allowBackup="true"
@@ -59,6 +60,14 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.fieldtracer.MainActivity" />
+        </activity>
+        <activity
+            android:name="org.serval.servalmaps.fieldtracer.ComparemapsActivity"
+            android:label="@string/title_activity_comparemaps"
+            android:parentActivityName="org.serval.servalmaps.fieldtracer.SettingsActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="org.serval.servalmaps.fieldtracer.SettingsActivity" />
         </activity>
     </application>
 

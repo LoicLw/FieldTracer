@@ -1,4 +1,4 @@
-package org.serval.servalmaps.fieldtracer;
+package org.serval.servalmaps.fieldtracer.utils;
 
 import java.util.Vector;
 

@@ -11,7 +11,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
 
-import org.mapsforge.core.model.GeoPoint;
+import org.serval.servalmaps.fieldtracer.utils.BackgroundMaps;
+import org.serval.servalmaps.fieldtracer.utils.Map;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
@@ -20,6 +21,7 @@ import android.app.AlertDialog.Builder;
 import android.app.Dialog;
 import android.content.ContentResolver;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -210,9 +212,10 @@ private static final String TAG = "Debug";
 			Log.v("BackgroundMaps", "One map files was: " + s);
 			Log.v("BackgroundMaps", "One file URI was: " + uri.toString());
 			Log.v("BackgroundMaps", "One file size was: " + size);
-
+			//TODO check for more than just size
 			if (size>0){
 				Log.v("BackgroundMaps", "This map sounds good " + s);
+				
 			} else{			
 				s="EMPTY MAP_"+s;
 			}
@@ -222,6 +225,11 @@ private static final String TAG = "Debug";
 		mFileList = new String[ maps_file.size() ];
 		maps_file.toArray( mFileList );
 		this.onCreateDialog(DIALOG_LOAD_MAPS);	
+	}
+	
+	public void ButtonOnVisualize(View v){
+		Intent intent_trace = new Intent(SettingsActivity.this,ComparemapsActivity.class);
+		SettingsActivity.this.startActivity(intent_trace);
 	}
 	
 	public static long copyLarge(InputStream input, OutputStream output) throws IOException 
