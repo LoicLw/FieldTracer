@@ -62,13 +62,15 @@
                 android:value="com.example.fieldtracer.MainActivity" />
         </activity>
         <activity
-            android:name="org.serval.servalmaps.fieldtracer.CompareMapsActivity"
-            android:label="@string/title_activity_comparemaps"
-            android:parentActivityName="org.serval.servalmaps.fieldtracer.SettingsActivity" >
+            android:name="org.serval.servalmaps.fieldtracer.VisualizeMapsActivity"
+            android:label="@string/title_activity_visualizemaps"
+            android:parentActivityName="org.serval.servalmaps.fieldtracer.ToolsActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="org.serval.servalmaps.fieldtracer.SettingsActivity" />
+                android:value="org.serval.servalmaps.fieldtracer.ToolsActivity" />
         </activity>
     </application>
 
 </manifest>
+
+

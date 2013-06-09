@@ -3,11 +3,10 @@
 
     <string name="app_name">FieldTracer</string>
     <string name="action_settings">Settings</string>
-    <string name="hello_world">Hello world!</string>
-    <string name="title_activity_trace">TraceActivity</string>
+    <string name="title_activity_trace">GPS Tracing</string>
     <string name="title_activity_settings">Settings</string>
-    <string name="title_activity_tools">ToolsActivity</string>
-    <string name="title_activity_share">ShareActivity</string>
-    <string name="title_activity_comparemaps">CompareMapsActivity</string>
+    <string name="title_activity_tools">Tools</string>
+    <string name="title_activity_share">Share traces</string>
+    <string name="title_activity_visualizemaps">Visualize all maps</string>
 
 </resources>

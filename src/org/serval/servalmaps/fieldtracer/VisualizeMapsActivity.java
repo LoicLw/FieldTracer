@@ -37,7 +37,7 @@ import android.view.MenuItem;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-public class CompareMapsActivity extends MapActivity {
+public class VisualizeMapsActivity extends MapActivity {
 
 	private Double map_upperleftcorner_lat;
 	private Double map_upperleftcorner_long;
@@ -80,7 +80,7 @@ public class CompareMapsActivity extends MapActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_comparemaps);
+		setContentView(R.layout.activity_visualizemaps);
 		// Show the Up button in the action bar.
 		setupActionBar();
 
@@ -159,17 +159,13 @@ public class CompareMapsActivity extends MapActivity {
 					map_upperleftcorner_long));
 
 			Polyline polyline;
-			if (mapsDB.get(i).getMaps_type() == "Users") {
-				polyline = createPolyline(coordinate_vector, 0xbb0000ff);
-			} else {
-				polyline = createPolyline(coordinate_vector, Color.BLACK);
-			}
-
 			Integer col=0;
 			if (mapsDB.get(i).getMaps_type() == "Users") {
 				col = 0xbb0000ff;
+				polyline = createPolyline(coordinate_vector, col);
 			} else {
 				col = Color.BLACK;
+				polyline = createPolyline(coordinate_vector, col);
 			}
 
 			TextDrawer.drawTextOnMap(map_name, map_lowerrightcorner_lat + 0.015,
@@ -198,7 +194,7 @@ public class CompareMapsActivity extends MapActivity {
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.comparemaps, menu);
+		getMenuInflater().inflate(R.menu.visualizemaps, menu);
 		return true;
 	}
 
@@ -251,9 +247,9 @@ public class CompareMapsActivity extends MapActivity {
 			maps_file.add(s);
 			try {
 				s = s.replace(".map", "");
-				if (!CompareMapsActivity.getMapsDB().contains(
-						new MapFromString(s, "User"))) {
-					CompareMapsActivity.getMapsDB().add(new MapFromString(s, "User"));
+				if (!VisualizeMapsActivity.getMapsDB().contains(
+						new MapFromString(s, "Users"))) {
+					VisualizeMapsActivity.getMapsDB().add(new MapFromString(s, "Users"));
 					Log.v(TAG, "------------------It is a new user map: " + s
 							+ "--------------------");
 				}
@@ -285,9 +281,9 @@ public class CompareMapsActivity extends MapActivity {
 		for (int i = 0; i < mFileList.length; i++) {
 			try {
 				mFileList[i] = mFileList[i].replace(".map", "");
-				if (!CompareMapsActivity.getMapsDB().contains(
+				if (!VisualizeMapsActivity.getMapsDB().contains(
 						new MapFromString(mFileList[i], "Local"))) {
-					CompareMapsActivity.getMapsDB().add(
+					VisualizeMapsActivity.getMapsDB().add(
 							new MapFromString(mFileList[i], "Local"));
 					Log.v("addMapsFromLocalStorage", "It is a new local map: "
 							+ mFileList[i]);
