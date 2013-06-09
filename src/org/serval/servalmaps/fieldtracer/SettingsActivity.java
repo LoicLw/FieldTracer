@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Vector;
 
 import org.serval.servalmaps.fieldtracer.utils.BackgroundMaps;
-import org.serval.servalmaps.fieldtracer.utils.Map;
+import org.serval.servalmaps.fieldtracer.utils.MapFromString;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
@@ -228,7 +228,7 @@ private static final String TAG = "Debug";
 	}
 	
 	public void ButtonOnVisualize(View v){
-		Intent intent_trace = new Intent(SettingsActivity.this,ComparemapsActivity.class);
+		Intent intent_trace = new Intent(SettingsActivity.this,CompareMapsActivity.class);
 		SettingsActivity.this.startActivity(intent_trace);
 	}
 	

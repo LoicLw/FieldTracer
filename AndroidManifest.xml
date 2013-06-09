@@ -62,7 +62,7 @@
                 android:value="com.example.fieldtracer.MainActivity" />
         </activity>
         <activity
-            android:name="org.serval.servalmaps.fieldtracer.ComparemapsActivity"
+            android:name="org.serval.servalmaps.fieldtracer.CompareMapsActivity"
             android:label="@string/title_activity_comparemaps"
             android:parentActivityName="org.serval.servalmaps.fieldtracer.SettingsActivity" >
             <meta-data

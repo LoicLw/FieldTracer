@@ -4,7 +4,7 @@ import java.util.Vector;
 
 import org.mapsforge.core.model.GeoPoint;
 
-public class Map {
+public class MapFromString {
 
 	@Override
 	public boolean equals(Object obj) {
@@ -14,7 +14,7 @@ public class Map {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Map other = (Map) obj;
+		MapFromString other = (MapFromString) obj;
 		if (maps_boundary_box == null) {
 			if (other.maps_boundary_box != null)
 				return false;
@@ -49,7 +49,7 @@ public class Map {
 	}
 	
 	
-	public Map(String name, String type){
+	public MapFromString(String name, String type){
 		String[] string_part = name.split("#_");
 		String[] coordinates_upper_left = string_part[1].split(",");
 		String[] coordinates_lower_right = string_part[2].split(",");
@@ -65,7 +65,7 @@ public class Map {
 
 
 
-	public boolean checkIfExistUser(String map_name, Vector<Map> mapDB){
-		return mapDB.contains(new Map(map_name, "User"));
+	public boolean checkIfExistUser(String map_name, Vector<MapFromString> mapDB){
+		return mapDB.contains(new MapFromString(map_name, "User"));
 	}
 }
