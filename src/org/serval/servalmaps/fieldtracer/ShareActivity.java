@@ -29,7 +29,7 @@ public class ShareActivity extends Activity {
 
 //In an Activity
 private String[] mFileList;
-private File mPath = new File(Environment.getExternalStorageDirectory(),"/_FieldTracer/");
+private File appPath = new File(Environment.getExternalStorageDirectory(),SettingsActivity.APP_NAME_PATH );
 private String mChosenFile;
 private static final String FTYPE = ""; //if we want an extension filter
 private static final int DIALOG_LOAD_FILE = 1000;	
@@ -82,19 +82,19 @@ private static final String TAG = "Debug";
 	
 	private void loadFileList() {
 	    try {
-	        mPath.mkdirs();
+	        appPath.mkdirs();
 	    }
 	    catch(SecurityException e) {
 	        Log.e(TAG, "unable to write on the sd card " + e.toString());
 	    }
-	    if(mPath.exists()) {
+	    if(appPath.exists()) {
 	        FilenameFilter filter = new FilenameFilter() {
 	            public boolean accept(File dir, String filename) {
 	                File sel = new File(dir, filename);
 	                return filename.contains(FTYPE) || sel.isDirectory();
 	            }
 	        };
-	        mFileList = mPath.list(filter);
+	        mFileList = appPath.list(filter);
 	    }
 	    else {
 	        mFileList= new String[0];
@@ -117,7 +117,7 @@ private static final String TAG = "Debug";
 	                public void onClick(DialogInterface dialog, int which) {
 	                    mChosenFile = mFileList[which];
 	                    //you can do stuff with the file here too
-	                    fileChoosed.setText(mPath + "/" + mChosenFile);   
+	                    fileChoosed.setText(appPath + "/" + mChosenFile);   
 	                }
 	            });
 	            break;
@@ -133,7 +133,7 @@ private static final String TAG = "Debug";
 	}
 
 	public void ButtonOnShareFile(View v){
-		Rhizome.addFile(getBaseContext(),mPath + "/" + mChosenFile);
+		Rhizome.addFile(getBaseContext(),appPath + "/" + mChosenFile);
 		 Builder dialog= new AlertDialog.Builder(this);
          dialog.setMessage("File added to Rhizome store");
          dialog.setPositiveButton("OK", null);
@@ -142,7 +142,7 @@ private static final String TAG = "Debug";
 
 	private Vector<File> findFile(String extension) {
 		
-		File[] entries = mPath.listFiles();
+		File[] entries = appPath.listFiles();
 		Vector<File> selected = new Vector<File>();
 		
         for (int i=0; i<entries.length;i++){

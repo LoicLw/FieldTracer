@@ -31,11 +31,9 @@ import android.view.MenuItem;
 import android.view.View;
 
 public class ToolsActivity extends Activity {
-	
 	private String[] mFileList;
-	private static File mPath = new File(Environment.getExternalStorageDirectory(),"/_FieldTracer/");
+	private static File appPath = new File(Environment.getExternalStorageDirectory(),SettingsActivity.APP_NAME_PATH);
 	private String mChosenFile;
-	private static final String FTYPE = ".map"; //if we want an extension filter
 	private static final int DIALOG_LOAD_MAPS = 2000;
 
 	//Vector used to store users maps information
@@ -171,7 +169,7 @@ public class ToolsActivity extends Activity {
 		try {
 			ContentResolver content_resolver = this.getContentResolver();
 			InputStream mInputStream = content_resolver.openInputStream(uri);
-			File file = new File(mPath + "/" + s);
+			File file = new File(appPath + "/" + s);
 			OutputStream outputstream = new FileOutputStream(file);
 			
 			try {

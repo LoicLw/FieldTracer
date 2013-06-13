@@ -43,6 +43,7 @@ public class VisualizeMapsActivity extends MapActivity {
 	private Double map_upperleftcorner_long;
 	private Double map_lowerrightcorner_lat;
 	private Double map_lowerrightcorner_long;
+	private final Integer RATIO_TEXT_SIZE_PER_SCREEN_SIZE = 12343;
 
 	// Maps
 	private static Vector<MapFromString> mapsDB = null;
@@ -111,7 +112,7 @@ public class VisualizeMapsActivity extends MapActivity {
 
 		// world.map is copied from assets in the Main Activity
 		File world = new File(Environment.getExternalStorageDirectory()
-				.getPath() + "/_FieldTracer/world.map");
+				.getPath() + SettingsActivity.APP_NAME_PATH + "world.map");
 
 		String mMapFileName = world.getPath();
 
@@ -168,7 +169,7 @@ public class VisualizeMapsActivity extends MapActivity {
 				polyline = createPolyline(coordinate_vector, col);
 			}
 
-			float text_size = (float) (MainActivity.screen_size / 12343);
+			float text_size = (float) (MainActivity.screen_size / RATIO_TEXT_SIZE_PER_SCREEN_SIZE);
 			TextDrawer.drawTextOnMap(map_name,
 					map_lowerrightcorner_lat + 0.015,
 					(map_upperleftcorner_long + map_lowerrightcorner_long) / 2,
@@ -264,7 +265,7 @@ public class VisualizeMapsActivity extends MapActivity {
 
 	public void addMapsFromLocalStorage() {
 		File mPath = new File(Environment.getExternalStorageDirectory(),
-				"/_FieldTracer/");
+				SettingsActivity.APP_NAME_PATH);
 		final String FTYPE = ".map";
 		String[] mFileList;
 

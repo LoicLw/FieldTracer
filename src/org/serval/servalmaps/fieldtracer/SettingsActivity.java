@@ -20,16 +20,17 @@ import android.view.View;
 import android.widget.TextView;
 
 public class SettingsActivity extends Activity {
-
+	
+	public static final String APP_NAME_PATH = "/_FieldTracer/";
 	private String[] mFileList;
-	private static File mPath = new File(
-			Environment.getExternalStorageDirectory(), "/_FieldTracer/");
+	private static File appPath = new File(
+			Environment.getExternalStorageDirectory(), APP_NAME_PATH);
 	private String mChosenFile;
 	private static final String FTYPE = ".map"; // if we want an extension
 												// filter
 	private static final int DIALOG_LOAD_FILE = 1000;
 
-	private static String mapFile = mPath + "/"
+	private static String mapFile = appPath + "/"
 			+ "Adelaide_Flinders#_-35.03,138.6#_-34.99,138.56.map"; // Default
 																	// map
 	private static String tracesRecordingType = "GPX"; // Default recording type
@@ -46,8 +47,8 @@ public class SettingsActivity extends Activity {
 		setupActionBar();
 
 		fileChoosed = (TextView) findViewById(R.id.textView1);
-		fileChoosed.setText(mPath + "/"
-				+ mapFile.replace(mPath.toString() + "/", ""));
+		fileChoosed.setText(appPath + "/"
+				+ mapFile.replace(appPath.toString() + "/", ""));
 
 		recordingTypeChoosed = (TextView) findViewById(R.id.textView2);
 		recordingTypeChoosed.setText(tracesRecordingType);
@@ -89,18 +90,18 @@ public class SettingsActivity extends Activity {
 
 	private void loadFileList() {
 		try {
-			mPath.mkdirs();
+			appPath.mkdirs();
 		} catch (SecurityException e) {
 			Log.e(TAG, "unable to write on the sd card " + e.toString());
 		}
-		if (mPath.exists()) {
+		if (appPath.exists()) {
 			FilenameFilter filter = new FilenameFilter() {
 				public boolean accept(File dir, String filename) {
 					File sel = new File(dir, filename);
 					return filename.contains(FTYPE) || sel.isDirectory();
 				}
 			};
-			mFileList = mPath.list(filter);
+			mFileList = appPath.list(filter);
 		} else {
 			mFileList = new String[0];
 		}
@@ -122,7 +123,7 @@ public class SettingsActivity extends Activity {
 				public void onClick(DialogInterface dialog, int which) {
 					mChosenFile = mFileList[which];
 					// you can do stuff with the file here too
-					mapFile = mPath + "/" + mChosenFile;
+					mapFile = appPath + "/" + mChosenFile;
 					fileChoosed.setText(mapFile);
 
 				}

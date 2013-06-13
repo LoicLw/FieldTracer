@@ -6,6 +6,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
+import org.serval.servalmaps.fieldtracer.utils.FileTools;
+
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -39,15 +41,17 @@ public class MainActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 
-		// Copy a base map for Adelaide
-		createDirIfNotExists("_FieldTracer");
-		createDirIfNotExists("_FieldTracer/temp");
-		File file = new File(
-				Environment.getExternalStorageDirectory().getPath()
-						+ "/_FieldTracer/Adelaide_Flinders#_-35.03,138.6#_-34.99,138.56.map");
+		// Create the directories at start and copy Adelaide mapfile from assets
+		// folder
+		FileTools.createDirIfNotExists(SettingsActivity.APP_NAME_PATH);
+		FileTools.createDirIfNotExists(SettingsActivity.APP_NAME_PATH + "temp");
+		File file = new File(Environment.getExternalStorageDirectory()
+				.getPath()
+				+ SettingsActivity.APP_NAME_PATH
+				+ "Adelaide_Flinders#_-35.03,138.6#_-34.99,138.56.map");
 
 		if (!file.exists()) {
-			copyAssets();
+			FileTools.copyAssets(this);
 		}
 		editMessage = (TextView) findViewById(R.id.textView2);
 		screen_size = getScreenPixels();
@@ -66,7 +70,6 @@ public class MainActivity extends Activity {
 		switch (item.getItemId()) {
 		case R.id.menu_trace:
 
-			// Starting the new activity through an intent
 			Intent intent_trace = new Intent(MainActivity.this,
 					TraceActivity.class);
 			MainActivity.this.startActivity(intent_trace);
@@ -100,6 +103,9 @@ public class MainActivity extends Activity {
 		return true;
 	}
 
+	// This function activate the GPS sensor throughout the application usage.
+	// It enable people that uses devices with long acquisition time to prepare
+	// their device.
 	public void GPSOnClick(View v) {
 		switch (v.getId()) {
 		case R.id.bOn:
@@ -145,55 +151,7 @@ public class MainActivity extends Activity {
 		}
 	}
 
-	public static boolean createDirIfNotExists(String path) {
-		boolean ret = true;
-
-		File file = new File(Environment.getExternalStorageDirectory(), path);
-		if (!file.exists()) {
-			if (!file.mkdirs()) {
-				Log.e("Log :: ", "Problem creating folder");
-				ret = false;
-			}
-		}
-		return ret;
-	}
-
-	public void copyAssets() {
-		AssetManager assetManager = getAssets();
-		String[] files = null;
-		try {
-			files = assetManager.list("");
-		} catch (IOException e) {
-			Log.e("tag", "Failed to get asset file list.", e);
-		}
-		for (String filename : files) {
-			InputStream in = null;
-			OutputStream out = null;
-			try {
-				in = assetManager.open(filename);
-				out = new FileOutputStream(Environment
-						.getExternalStorageDirectory().getPath()
-						+ "/_FieldTracer/" + filename);
-				copyFile(in, out);
-				in.close();
-				in = null;
-				out.flush();
-				out.close();
-				out = null;
-			} catch (IOException e) {
-				Log.e("tag", "Failed to copy asset file: " + filename, e);
-			}
-		}
-	}
-
-	private void copyFile(InputStream in, OutputStream out) throws IOException {
-		byte[] buffer = new byte[1024];
-		int read;
-		while ((read = in.read(buffer)) != -1) {
-			out.write(buffer, 0, read);
-		}
-	}
-
+	@SuppressWarnings("deprecation")
 	public Integer getScreenPixels() {
 
 		int Measuredwidth = 0;
