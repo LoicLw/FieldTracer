@@ -240,21 +240,22 @@ public class VisualizeMapsActivity extends MapActivity {
 			// TODO check for more than just size
 			if (size > 0) {
 				Log.v("BackgroundMaps", "This map sounds good " + s);
-
-			} else {
-				s = "EMPTY MAP_" + s;
-			}
-			maps_file.add(s);
-			try {
-				s = s.replace(".map", "");
-				if (!VisualizeMapsActivity.getMapsDB().contains(
-						new MapFromString(s, "Users"))) {
-					VisualizeMapsActivity.getMapsDB().add(new MapFromString(s, "Users"));
-					Log.v(TAG, "------------------It is a new user map: " + s
-							+ "--------------------");
+				maps_file.add(s);
+				try {
+					s = s.replace(".map", "");
+					if (!VisualizeMapsActivity.getMapsDB().contains(
+							new MapFromString(s, "Users"))) {
+						VisualizeMapsActivity.getMapsDB().add(new MapFromString(s, "Users"));
+						Log.v(TAG, "------------------It is a new user map: " + s
+								+ "--------------------");
+					}
+				} catch (Exception e) {
+					Log.e("BackgroundMaps", "Maps string incorrect " + s);
 				}
-			} catch (Exception e) {
-				Log.e("BackgroundMaps", "Maps string incorrect " + s);
+			}
+			else {
+				Log.v("BackgroundMaps", "Map was empty " + s);
+				s = "EMPTY MAP_" + s;
 			}
 
 		}

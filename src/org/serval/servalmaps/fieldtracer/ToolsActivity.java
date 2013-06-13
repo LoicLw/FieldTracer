@@ -12,22 +12,23 @@ import java.util.Vector;
 
 import org.serval.servalmaps.fieldtracer.utils.BackgroundMaps;
 
-import android.net.Uri;
-import android.os.Bundle;
-import android.os.Environment;
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.app.AlertDialog.Builder;
+import android.app.Dialog;
 import android.content.ContentResolver;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
+import android.os.Build;
+import android.os.Bundle;
+import android.os.Environment;
+import android.support.v4.app.NavUtils;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.TextView;
-import android.support.v4.app.NavUtils;
 
 public class ToolsActivity extends Activity {
 	
@@ -54,14 +55,15 @@ public class ToolsActivity extends Activity {
 	}
 
 	/**
-	 * Set up the {@link android.app.ActionBar}.
+	 * Set up the {@link android.app.ActionBar}, if the API is available.
 	 */
+	@TargetApi(Build.VERSION_CODES.HONEYCOMB)
 	private void setupActionBar() {
-
-		getActionBar().setDisplayHomeAsUpEnabled(true);
-
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+			getActionBar().setDisplayHomeAsUpEnabled(true);
+		}
 	}
-
+	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
