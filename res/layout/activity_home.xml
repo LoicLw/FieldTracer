@@ -20,10 +20,12 @@
 
         <TextView
             android:id="@+id/textView2"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="32dp"
-            android:text="Before tracing, please make sure the GPS is fixed"
+            android:gravity="center_vertical|center_horizontal"
+            android:paddingBottom="16dp"
+            android:paddingTop="16dp"
+            android:text="Pre activate the GPS sensor:"
             android:textAppearance="?android:attr/textAppearanceMedium" />
 
         <LinearLayout
@@ -36,10 +38,17 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:onClick="GPSOnClick"
-                android:padding="32dp"
+                android:padding="16dp"
                 android:text="GPS On" />
 
         </LinearLayout>
+
+        <ImageView
+            android:id="@+id/imageView1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:alpha="0"
+            android:src="@drawable/device_access_location_found" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -51,7 +60,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:onClick="GPSOnClick"
-                android:padding="32dp"
+                android:padding="16dp"
                 android:text="Exit" />
 
         </LinearLayout>

@@ -33,12 +33,14 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Current map in usage is:"
-                    android:textAppearance="?android:attr/textAppearanceMedium" />
+                    android:textAppearance="?android:attr/textAppearanceMedium" 
+                    android:textStyle="bold"/>
 
                 <TextView
                     android:id="@+id/textView1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="32dp"
                     android:text="Path" />
 
                 <Button
@@ -46,6 +48,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="8dp"
                     android:onClick="ButtonOnSelectFile"
                     android:text="Change map file" />
 
@@ -55,12 +58,14 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
                     android:text="Current recording type is:"
-                    android:textAppearance="?android:attr/textAppearanceMedium" />
+                    android:textAppearance="?android:attr/textAppearanceMedium" 
+                    android:textStyle="bold"/>
 
                 <TextView
                     android:id="@+id/textView2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="32dp"
                     android:text="Trace recording type"
                     android:textAppearance="?android:attr/textAppearanceSmall" />
 
@@ -69,8 +74,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="8dp"
                     android:onClick="ButtonOnChangeTraceRecordingType"
                     android:text="Change trace recording type" />
+
             </LinearLayout>
 
         </ScrollView>

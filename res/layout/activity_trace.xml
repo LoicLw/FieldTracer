@@ -46,7 +46,7 @@
 
         </LinearLayout>
 
-        <Button
+        <ImageButton
             android:id="@+id/button1"
             style="?android:attr/buttonStyleSmall"
             android:layout_width="wrap_content"
@@ -54,7 +54,7 @@
             android:layout_alignBottom="@+id/button2"
             android:layout_alignParentTop="true"
             android:onClick="ButtonOnCenter"
-            android:text="-o-" />
+            android:src="@drawable/device_access_location_found" />
 
         <Button
             android:id="@+id/button2"

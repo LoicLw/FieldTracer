@@ -19,14 +19,23 @@
         android:orientation="vertical" >
 
         <TextView
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:text="Automated sharing"
+            android:textAppearance="?android:attr/textAppearanceMedium" 
+            android:textStyle="bold"/>
+
+        <TextView
             android:id="@+id/TextView01"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="left"
             android:layout_marginLeft="16dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="8dp"
             android:text="Automated traces sharing:"
-            android:textAppearance="?android:attr/textAppearanceMedium" />
+            android:textAppearance="?android:attr/textAppearanceSmall" />
 
         <ToggleButton
             android:id="@+id/toggleButton1"
@@ -43,7 +52,7 @@
             android:layout_marginLeft="16dp"
             android:layout_marginTop="16dp"
             android:text="Automated POI sharing:"
-            android:textAppearance="?android:attr/textAppearanceMedium" />
+            android:textAppearance="?android:attr/textAppearanceSmall" />
 
         <ToggleButton
             android:id="@+id/toggleButton2"
@@ -59,30 +68,17 @@
             android:layout_gravity="left"
             android:layout_marginTop="16dp"
             android:text="Selective sharing"
-            android:textAppearance="?android:attr/textAppearanceSmall" />
+            android:textAppearance="?android:attr/textAppearanceMedium" 
+            android:textStyle="bold"/>
 
         <Button
             android:id="@+id/button1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
             android:onClick="ButtonOnSelectFile"
             android:padding="16dp"
             android:text="Select a file to share" />
-
-        <TextView
-            android:id="@+id/textView1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="8dp"
-            android:text="Please select a file" />
-
-        <Button
-            android:id="@+id/button2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:onClick="ButtonOnShareFile"
-            android:padding="16dp"
-            android:text="Share it through Serval Mesh" />
 
         <Button
             android:id="@+id/button3"
@@ -92,12 +88,5 @@
             android:padding="16dp"
             android:text="Share all POI and traces" />
     </LinearLayout>
-
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Automated sharing"
-        android:textAppearance="?android:attr/textAppearanceSmall" />
 
 </RelativeLayout>

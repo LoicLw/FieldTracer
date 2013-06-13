@@ -1,10 +1,6 @@
 package org.serval.servalmaps.fieldtracer;
 
 import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 
 import org.serval.servalmaps.fieldtracer.utils.FileTools;
 
@@ -12,7 +8,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.res.AssetManager;
 import android.graphics.Color;
 import android.graphics.Point;
 import android.location.Location;
@@ -21,12 +16,13 @@ import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
-import android.util.Log;
 import android.view.Display;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -128,7 +124,12 @@ public class HomeActivity extends Activity {
 					// Called when a new location is found by the network
 					// location provider.
 					editMessage.setText("Location acquired.");
-					editMessage.setTextColor(Color.parseColor("#10FF10"));
+					editMessage.setTextColor(Color.parseColor("#ff33b5e5"));
+					
+					Button gps_onButton = (Button) findViewById(R.id.bOn);
+					gps_onButton.setVisibility(View.GONE);
+					ImageView image = (ImageView) findViewById(R.id.imageView1);
+					image.setAlpha(1f);
 				}
 
 				public void onStatusChanged(String provider, int status,

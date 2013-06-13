@@ -1,12 +1,28 @@
 FieldTracer
 ===========
 
+###Introduction
 
-Functionality structure:
+###The Serval Project and Mapsforge
 
-Home
-  - GPS Tracing
-  	* Show current location
+The application interconnects with Serval.
+
+###More details
+
+The application is divided in 4 activities:
+
+- A **GPS tracing** activity to record in GPX or in plain text
+- A **traces sharing** and POI sharing activity that uses Serval Rhizome and from where an user can set automated sharing preferences
+- A **tools** activity to show all the maps in the network and locally and to download one map
+- A **settings** activity to set which recording format and which background map the application should use
+
+
+###Functionality structure:
+
+Home page
+
+  - GPS Tracing 
+	* Show current location
     * Record a GPS trace
     * Record a Point of Interest
     * Show last trace
