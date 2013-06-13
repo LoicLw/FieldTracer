@@ -9,14 +9,16 @@ import java.util.TimeZone;
 
 import org.serval.servalmaps.fieldtracer.SettingsActivity;
 
+import android.app.Activity;
+import android.content.SharedPreferences;
 import android.os.Environment;
 import android.text.format.Time;
 import android.util.Log;
 
-public class TracesSaving {
+public class TracesSaving{
 
 	public static void writePOI(Double longitude, Double latitude,
-			Float accuracy, String name, String poi_type) {
+			Float accuracy, String name, String poi_type, Activity activity) {
 		String separator = System.getProperty("line.separator");
 		String str = "";
 		// Get the time to date the POI
@@ -37,6 +39,9 @@ public class TracesSaving {
 		} catch (Exception e) {
 			Log.e("Error while trying to write POI to SDCard", e.getMessage());
 		}
+		
+		addToServalRhizome(file.toString(), activity);
+		
 	}
 
 	public static void writeTraceText(Double longitude, Double latitude,
@@ -63,7 +68,7 @@ public class TracesSaving {
 		}
 	}
 
-	public static void closeTraceGPX(String name) {
+	public static void closeTraceGPX(String name, Activity activity) {
 		String separator = System.getProperty("line.separator");
 		// Get the time to date the Trace
 		Time today = new Time(Time.getCurrentTimezone());
@@ -83,6 +88,8 @@ public class TracesSaving {
 			Log.e("Error while trying to write the latest part of the GPX file",
 					e.getMessage());
 		}
+		
+		addToServalRhizome(file.toString(), activity);
 	}
 
 	public static void writeTraceGPX(Double longitude, Double latitude,
@@ -121,6 +128,14 @@ public class TracesSaving {
 			fWriter.close();
 		} catch (Exception e) {
 			Log.e("Error while trying to write GPX to SDCard", e.getMessage());
+		}
+		
+	}
+	
+	public static void addToServalRhizome(String path, Activity activity){
+		SharedPreferences settings = activity.getSharedPreferences("UserInfo", 0);
+		if (settings.getString("AutomatedTracesSharing", "").toString().equalsIgnoreCase("True")){
+			ServalRhizomeTools.addFile(activity.getBaseContext(),path);
 		}
 	}
 

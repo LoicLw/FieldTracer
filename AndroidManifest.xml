@@ -21,7 +21,7 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name="org.serval.servalmaps.fieldtracer.MainActivity"
+            android:name="org.serval.servalmaps.fieldtracer.HomeActivity"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -32,34 +32,34 @@
         <activity
             android:name="org.serval.servalmaps.fieldtracer.TraceActivity"
             android:label="@string/title_activity_trace"
-            android:parentActivityName="org.serval.servalmaps.fieldtracer.MainActivity" >
+            android:parentActivityName="org.serval.servalmaps.fieldtracer.HomeActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.fieldtracer.MainActivity" />
+                android:value="com.example.fieldtracer.HomeActivity" />
         </activity>
         <activity
             android:name="org.serval.servalmaps.fieldtracer.SettingsActivity"
             android:label="@string/title_activity_settings"
-            android:parentActivityName="org.serval.servalmaps.fieldtracer.MainActivity" >
+            android:parentActivityName="org.serval.servalmaps.fieldtracer.HomeActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.fieldtracer.MainActivity" />
+                android:value="com.example.fieldtracer.HomeActivity" />
         </activity>
         <activity
             android:name="org.serval.servalmaps.fieldtracer.ToolsActivity"
             android:label="@string/title_activity_tools"
-            android:parentActivityName="org.serval.servalmaps.fieldtracer.MainActivity" >
+            android:parentActivityName="org.serval.servalmaps.fieldtracer.HomeActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.fieldtracer.MainActivity" />
+                android:value="com.example.fieldtracer.HomeActivity" />
         </activity>
         <activity
             android:name="org.serval.servalmaps.fieldtracer.ShareActivity"
             android:label="@string/title_activity_share"
-            android:parentActivityName="org.serval.servalmaps.fieldtracer.MainActivity" >
+            android:parentActivityName="org.serval.servalmaps.fieldtracer.HomeActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.fieldtracer.MainActivity" />
+                android:value="com.example.fieldtracer.HomeActivity" />
         </activity>
         <activity
             android:name="org.serval.servalmaps.fieldtracer.VisualizeMapsActivity"

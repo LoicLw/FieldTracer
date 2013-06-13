@@ -11,6 +11,7 @@ import org.serval.servalmaps.fieldtracer.utils.FileTools;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.AssetManager;
 import android.graphics.Color;
 import android.graphics.Point;
@@ -29,7 +30,7 @@ import android.view.WindowManager;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class MainActivity extends Activity {
+public class HomeActivity extends Activity {
 
 	private TextView editMessage = null;
 	private LocationManager locationManager;
@@ -39,7 +40,13 @@ public class MainActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_main);
+		setContentView(R.layout.activity_home);
+		
+		//If the user already specified a map we set it
+		SharedPreferences settings = getSharedPreferences("UserInfo", 0);
+		if (settings.getString("CurrentMap", "").toString() != ""){
+			SettingsActivity.setMapFile(settings.getString("CurrentMap", "").toString()) ;
+		}
 
 		// Create the directories at start and copy Adelaide mapfile from assets
 		// folder
@@ -60,7 +67,7 @@ public class MainActivity extends Activity {
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.main, menu);
+		getMenuInflater().inflate(R.menu.home, menu);
 
 		return true;
 	}
@@ -70,30 +77,30 @@ public class MainActivity extends Activity {
 		switch (item.getItemId()) {
 		case R.id.menu_trace:
 
-			Intent intent_trace = new Intent(MainActivity.this,
+			Intent intent_trace = new Intent(HomeActivity.this,
 					TraceActivity.class);
-			MainActivity.this.startActivity(intent_trace);
+			HomeActivity.this.startActivity(intent_trace);
 			break;
 
 		case R.id.menu_share:
 
-			Intent intent_share = new Intent(MainActivity.this,
+			Intent intent_share = new Intent(HomeActivity.this,
 					ShareActivity.class);
-			MainActivity.this.startActivity(intent_share);
+			HomeActivity.this.startActivity(intent_share);
 			break;
 
 		case R.id.menu_settings:
 
-			Intent intent_settings = new Intent(MainActivity.this,
+			Intent intent_settings = new Intent(HomeActivity.this,
 					SettingsActivity.class);
-			MainActivity.this.startActivity(intent_settings);
+			HomeActivity.this.startActivity(intent_settings);
 			break;
 
 		case R.id.menu_tools:
 
-			Intent intent_tools = new Intent(MainActivity.this,
+			Intent intent_tools = new Intent(HomeActivity.this,
 					ToolsActivity.class);
-			MainActivity.this.startActivity(intent_tools);
+			HomeActivity.this.startActivity(intent_tools);
 			break;
 
 		default:

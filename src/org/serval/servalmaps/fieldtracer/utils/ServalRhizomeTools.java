@@ -33,7 +33,7 @@ import android.widget.Toast;
 /**
  * used to add a file to the Rhizome repository
  */
-public class Rhizome {
+public class ServalRhizomeTools {
 
 	/*
 	 * class level constants

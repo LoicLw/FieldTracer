@@ -169,7 +169,7 @@ public class VisualizeMapsActivity extends MapActivity {
 				polyline = createPolyline(coordinate_vector, col);
 			}
 
-			float text_size = (float) (MainActivity.screen_size / RATIO_TEXT_SIZE_PER_SCREEN_SIZE);
+			float text_size = (float) (HomeActivity.screen_size / RATIO_TEXT_SIZE_PER_SCREEN_SIZE);
 			TextDrawer.drawTextOnMap(map_name,
 					map_lowerrightcorner_lat + 0.015,
 					(map_upperleftcorner_long + map_lowerrightcorner_long) / 2,

@@ -5,7 +5,7 @@ import java.io.FilenameFilter;
 import java.util.Iterator;
 import java.util.Vector;
 
-import org.serval.servalmaps.fieldtracer.utils.Rhizome;
+import org.serval.servalmaps.fieldtracer.utils.ServalRhizomeTools;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
@@ -13,6 +13,7 @@ import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
@@ -22,6 +23,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.ToggleButton;
 
 
 
@@ -43,6 +45,19 @@ private static final String TAG = "Debug";
 		setContentView(R.layout.activity_share);
 		// Show the Up button in the action bar.
 		setupActionBar();
+
+		//Get the settings for automated sharing and set it to the UI
+		SharedPreferences settings = getSharedPreferences("UserInfo", 0);
+		if (settings.getString("AutomatedTracesSharing", "").toString().equalsIgnoreCase("True")){
+			ToggleButton traceToggle = (ToggleButton)findViewById(R.id.toggleButton1);
+			traceToggle.setChecked(true);
+		}
+		
+		if (settings.getString("AutomatedPOISharing", "").toString().equalsIgnoreCase("True")){
+			ToggleButton poiToggle = (ToggleButton)findViewById(R.id.toggleButton2);
+			poiToggle.setChecked(true);
+		}
+		
 		fileChoosed = (TextView) findViewById(R.id.textView1);   
 	}
 
@@ -133,7 +148,7 @@ private static final String TAG = "Debug";
 	}
 
 	public void ButtonOnShareFile(View v){
-		Rhizome.addFile(getBaseContext(),appPath + "/" + mChosenFile);
+		ServalRhizomeTools.addFile(getBaseContext(),appPath + "/" + mChosenFile);
 		 Builder dialog= new AlertDialog.Builder(this);
          dialog.setMessage("File added to Rhizome store");
          dialog.setPositiveButton("OK", null);
@@ -164,7 +179,7 @@ private static final String TAG = "Debug";
 		
 		 while(itr.hasNext()){
 			 File elem = (File)itr.next();
-			 Rhizome.addFile(getBaseContext(),elem.toString());
+			 ServalRhizomeTools.addFile(getBaseContext(),elem.toString());
 			 Log.v(TAG, "File added to Rhizome Store :" + elem.toString());
 		 }
 						
@@ -172,5 +187,38 @@ private static final String TAG = "Debug";
         dialog.setMessage("Files added to Rhizome store");
         dialog.setPositiveButton("OK", null);
         dialog.show();        
+	}
+	
+	public void onAutoTracesShareToggleClicked(View view) {
+		
+		SharedPreferences settings = getSharedPreferences("UserInfo", 0);
+		SharedPreferences.Editor editor = settings.edit();
+		// Is the toggle on?
+		boolean on = ((ToggleButton) view).isChecked();
+		if (on) {
+			Log.e(TAG, "Trace isChecked");
+			editor.putString("AutomatedTracesSharing","True");
+			editor.commit();
+		}
+		else{
+			Log.e(TAG, "Trace is not Checked");
+			editor.putString("AutomatedTracesSharing","False");
+			editor.commit();
+		}
+	}
+	
+	public void onAutoPOIShareToggleClicked(View view) {
+		SharedPreferences settings = getSharedPreferences("UserInfo", 0);
+		SharedPreferences.Editor editor = settings.edit();
+		// Is the toggle on?
+		boolean on = ((ToggleButton) view).isChecked();
+		if (on) {
+			editor.putString("AutomatedPOISharing","True");
+			editor.commit();
+		}
+		else{
+			editor.putString("AutomatedPOISharing","False");
+			editor.commit();
+		}
 	}
 }

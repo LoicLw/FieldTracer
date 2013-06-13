@@ -20,6 +20,7 @@ import org.serval.servalmaps.fieldtracer.utils.TextDrawer;
 import org.serval.servalmaps.fieldtracer.utils.TracesSaving;
 
 import android.annotation.TargetApi;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -269,6 +270,7 @@ public class TraceActivity extends MapActivity {
 			final EditText userInput = (EditText) promptsView
 					.findViewById(R.id.editTextDialogUserInput);
 
+			final Activity activity = this;
 			// set dialog message
 			alertDialogBuilder
 					.setCancelable(false)
@@ -287,7 +289,7 @@ public class TraceActivity extends MapActivity {
 												current_loc.getLongitude(),
 												current_loc.getLatitude(),
 												current_loc.getAccuracy(),
-												poi_name, poi_type);
+												poi_name, poi_type, activity);
 
 										Marker marker1 = createMarker(
 												R.drawable.marker_green,
@@ -301,7 +303,7 @@ public class TraceActivity extends MapActivity {
 										overlayItems.add(marker1);
 										mapView.getOverlays().add(listOverlay);
 
-										float text_size = (float) (MainActivity.screen_size / RATE_TEXT_SIZE_PER_SCREEN_SIZE);
+										float text_size = (float) (HomeActivity.screen_size / RATE_TEXT_SIZE_PER_SCREEN_SIZE);
 										TextDrawer.drawTextOnMap(poi_name,
 												current_loc.getLatitude(),
 												current_loc.getLongitude(),
@@ -383,7 +385,7 @@ public class TraceActivity extends MapActivity {
 				trace_toggle = false;
 				coordinate_vector.clear();
 				if (trace_name != "") {
-					TracesSaving.closeTraceGPX(trace_name);
+					TracesSaving.closeTraceGPX(trace_name, this);
 				}
 			}
 		} else {

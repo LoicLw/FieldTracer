@@ -71,8 +71,8 @@
                     android:layout_gravity="center_horizontal"
                     android:onClick="ButtonOnChangeTraceRecordingType"
                     android:text="Change trace recording type" />
-
             </LinearLayout>
+
         </ScrollView>
     </LinearLayout>
 

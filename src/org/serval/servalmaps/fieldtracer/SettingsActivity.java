@@ -9,6 +9,7 @@ import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
@@ -18,6 +19,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.ToggleButton;
 
 public class SettingsActivity extends Activity {
 	
@@ -30,9 +32,10 @@ public class SettingsActivity extends Activity {
 												// filter
 	private static final int DIALOG_LOAD_FILE = 1000;
 
+	// Default map
 	private static String mapFile = appPath + "/"
-			+ "Adelaide_Flinders#_-35.03,138.6#_-34.99,138.56.map"; // Default
-																	// map
+			+ "Adelaide_Flinders#_-35.03,138.6#_-34.99,138.56.map"; 
+
 	private static String tracesRecordingType = "GPX"; // Default recording type
 
 	private TextView fileChoosed = null;
@@ -45,11 +48,16 @@ public class SettingsActivity extends Activity {
 		setContentView(R.layout.activity_settings);
 		// Show the Up button in the action bar.
 		setupActionBar();
-
 		fileChoosed = (TextView) findViewById(R.id.textView1);
-		fileChoosed.setText(appPath + "/"
-				+ mapFile.replace(appPath.toString() + "/", ""));
-
+		
+		SharedPreferences settings = getSharedPreferences("UserInfo", 0);
+		if (settings.getString("CurrentMap", "").toString() != ""){
+			fileChoosed.setText((settings.getString("CurrentMap", "").toString()));
+			mapFile = settings.getString("CurrentMap", "").toString();
+		}else {
+			fileChoosed.setText(appPath + "/" + mapFile.replace(appPath.toString() + "/", ""));			
+		}
+		
 		recordingTypeChoosed = (TextView) findViewById(R.id.textView2);
 		recordingTypeChoosed.setText(tracesRecordingType);
 	}
@@ -125,6 +133,12 @@ public class SettingsActivity extends Activity {
 					// you can do stuff with the file here too
 					mapFile = appPath + "/" + mChosenFile;
 					fileChoosed.setText(mapFile);
+					
+					//Saving into Android preferences
+					SharedPreferences settings = getSharedPreferences("UserInfo", 0);
+					SharedPreferences.Editor editor = settings.edit();
+					editor.putString("CurrentMap", mapFile );
+					editor.commit();
 
 				}
 			});
@@ -141,6 +155,10 @@ public class SettingsActivity extends Activity {
 	public static String getTracesRecordingType() {
 		return tracesRecordingType;
 	}
+	
+	public static void setMapFile(String mapFile) {
+		SettingsActivity.mapFile = mapFile;
+	}
 
 	public void ButtonOnSelectFile(View v) {
 		// create alert dialog
@@ -156,5 +174,6 @@ public class SettingsActivity extends Activity {
 		}
 		recordingTypeChoosed.setText(tracesRecordingType);
 	}
+
 
 }
