@@ -7,8 +7,6 @@ import java.io.InputStream;
 import java.io.OutputStream;
 
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.app.AlertDialog.Builder;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.AssetManager;

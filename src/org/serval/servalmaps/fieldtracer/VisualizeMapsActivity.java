@@ -1,7 +1,6 @@
 package org.serval.servalmaps.fieldtracer;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.FilenameFilter;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,8 +20,6 @@ import org.serval.servalmaps.fieldtracer.utils.MapFromString;
 import org.serval.servalmaps.fieldtracer.utils.TextDrawer;
 
 import android.annotation.TargetApi;
-import android.graphics.Bitmap;
-import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.drawable.Drawable;
@@ -121,7 +118,7 @@ public class VisualizeMapsActivity extends MapActivity {
 		Log.v(TAG, "Map path is : " + mMapFileName);
 		mapView.setMapFile(new File(mMapFileName));
 		// Add the map to the layout
-		ViewGroup layout = (ViewGroup) findViewById(R.id.relativeLayout);
+		ViewGroup layout = (ViewGroup) findViewById(R.id.relativeLayoutMaps);
 		layout.addView(mapView);
 
 		addMapsFromServalUsers();
