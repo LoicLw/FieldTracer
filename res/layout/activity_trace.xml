@@ -51,14 +51,18 @@
             style="?android:attr/buttonStyleSmall"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/button2"
+            android:layout_alignParentTop="true"
             android:onClick="ButtonOnCenter"
-            android:text="-ɸ-" />
+            android:text="-o-" />
 
         <Button
             android:id="@+id/button2"
             style="?android:attr/buttonStyleSmall"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/toggleTrace"
+            android:layout_alignParentTop="true"
             android:layout_toRightOf="@+id/button1"
             android:onClick="ButtonOnPOIAdd"
             android:text="+POI" />

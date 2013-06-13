@@ -22,6 +22,7 @@ import org.serval.servalmaps.fieldtracer.utils.TextDrawer;
 import android.annotation.TargetApi;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Point;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
@@ -29,9 +30,11 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.support.v4.app.NavUtils;
 import android.util.Log;
+import android.view.Display;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.Toast;
 
 public class VisualizeMapsActivity extends MapActivity {
@@ -105,13 +108,10 @@ public class VisualizeMapsActivity extends MapActivity {
 		}
 
 		this.mapView.getOverlays().add(this.myLocationOverlay);
-		
+
+		// world.map is copied from assets in the Main Activity
 		File world = new File(Environment.getExternalStorageDirectory()
 				.getPath() + "/_FieldTracer/world.map");
-
-		if (!world.exists()) {
-			// TODO copy World.map to "_FieldTracer" folder
-		}
 
 		String mMapFileName = world.getPath();
 
@@ -123,10 +123,13 @@ public class VisualizeMapsActivity extends MapActivity {
 
 		addMapsFromServalUsers();
 		addMapsFromLocalStorage();
-		if (mapsDB == null) { mapsDB = new Vector<MapFromString>(); }
+		if (mapsDB == null) {
+			mapsDB = new Vector<MapFromString>();
+		}
 
-		/* Text format for Mapsforge maps file:
-		 * Port Augusta and Pirie#_-31.877558,136.931877#_-33.60547,138.546867.map
+		/*
+		 * Text format for Mapsforge maps file: Port Augusta and
+		 * Pirie#_-31.877558,136.931877#_-33.60547,138.546867.map
 		 */
 
 		for (int i = 0; i < mapsDB.size(); i++) {
@@ -156,7 +159,7 @@ public class VisualizeMapsActivity extends MapActivity {
 					map_upperleftcorner_long));
 
 			Polyline polyline;
-			Integer col=0;
+			Integer col = 0;
 			if (mapsDB.get(i).getMaps_type() == "Users") {
 				col = 0xbb0000ff;
 				polyline = createPolyline(coordinate_vector, col);
@@ -165,16 +168,17 @@ public class VisualizeMapsActivity extends MapActivity {
 				polyline = createPolyline(coordinate_vector, col);
 			}
 
-			TextDrawer.drawTextOnMap(map_name, map_lowerrightcorner_lat + 0.015,
+			float text_size = (float) (MainActivity.screen_size / 12343);
+			TextDrawer.drawTextOnMap(map_name,
+					map_lowerrightcorner_lat + 0.015,
 					(map_upperleftcorner_long + map_lowerrightcorner_long) / 2,
-					col, mapView, getCacheDir());
-			
+					col, mapView, getCacheDir(), text_size);
+
 			ListOverlay listOverlay = new ListOverlay();
 			List<OverlayItem> overlayItems = listOverlay.getOverlayItems();
 			overlayItems.add(polyline);
 			mapView.getOverlays().add(listOverlay);
-			
-	
+
 		}
 	}
 
@@ -242,15 +246,15 @@ public class VisualizeMapsActivity extends MapActivity {
 					s = s.replace(".map", "");
 					if (!VisualizeMapsActivity.getMapsDB().contains(
 							new MapFromString(s, "Users"))) {
-						VisualizeMapsActivity.getMapsDB().add(new MapFromString(s, "Users"));
-						Log.v(TAG, "------------------It is a new user map: " + s
-								+ "--------------------");
+						VisualizeMapsActivity.getMapsDB().add(
+								new MapFromString(s, "Users"));
+						Log.v(TAG, "------------------It is a new user map: "
+								+ s + "--------------------");
 					}
 				} catch (Exception e) {
 					Log.e("BackgroundMaps", "Maps string incorrect " + s);
 				}
-			}
-			else {
+			} else {
 				Log.v("BackgroundMaps", "Map was empty " + s);
 				s = "EMPTY MAP_" + s;
 			}

@@ -3,7 +3,7 @@
     
     <item android:id="@+id/menu_trace" android:title="Trace" android:orderInCategory="50"></item>
     <item android:id="@+id/menu_share" android:title="Share" android:orderInCategory="60"></item>
-    <item android:id="@+id/menu_tools" android:orderInCategory="70" android:title="Tools" />
-    <item android:id="@+id/menu_settings" android:orderInCategory="80" android:title="Settings" />
+    <item android:id="@+id/menu_tools" android:orderInCategory="70" android:title="Tools"/>
+    <item android:id="@+id/menu_settings" android:orderInCategory="80" android:title="Settings"/>
 
 </menu>

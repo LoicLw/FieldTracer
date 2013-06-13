@@ -463,11 +463,12 @@ public class TraceActivity extends MapActivity {
 										overlayItems.add(marker1);
 										mapView.getOverlays().add(listOverlay);
 
+										float text_size = (float) (MainActivity.screen_size / 12343);
 										TextDrawer.drawTextOnMap(poi_name,
 												current_loc.getLatitude(),
 												current_loc.getLongitude(),
 												0xcc222200, mapView,
-												getCacheDir());
+												getCacheDir(), text_size);
 
 									} catch (Exception e) {
 										Log.e("Error while trying to write Poi and display an Overlay",

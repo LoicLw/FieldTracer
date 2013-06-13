@@ -23,13 +23,13 @@ public class TextDrawer extends Drawable {
 	private final String text;
 	private final Paint paint;
 
-	public TextDrawer(String text, int col) {
+	public TextDrawer(String text, int col, float text_size) {
 
 		this.text = text;
 
 		this.paint = new Paint();
 		paint.setColor(col);
-		paint.setTextSize(42f);
+		paint.setTextSize(text_size);
 		paint.setAntiAlias(true);
 		paint.setFakeBoldText(true);
 		paint.setShadowLayer(4f, 0, 0, Color.WHITE);
@@ -58,15 +58,15 @@ public class TextDrawer extends Drawable {
 	}
 
 	static public void drawTextOnMap(String name, Double lati, Double longi,
-			Integer color, MapView mapView, File cacheDir) {
+			Integer color, MapView mapView, File cacheDir, float text_size) {
 		// Drawing the map name as a drawable since Mapsforge does not
 		// provide a way to do it in 0.3.1
-		Bitmap b = Bitmap.createBitmap(55 + 20 * name.length(), 75,
-				Bitmap.Config.ARGB_8888);
+		Bitmap b = Bitmap.createBitmap((int) (55 + (20 * name.length())
+				/ (42 / text_size)), 75, Bitmap.Config.ARGB_8888);
 		Canvas can = new Canvas(b);
 
 		Drawable point2_drawable;
-		point2_drawable = new TextDrawer(name, color);
+		point2_drawable = new TextDrawer(name, color, text_size);
 		point2_drawable.draw(can);
 
 		// Writing the drawable as a bitmap to disk
@@ -94,4 +94,5 @@ public class TextDrawer extends Drawable {
 
 		mapView.getOverlays().add(listOverlay);
 	}
+
 }
