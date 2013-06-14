@@ -89,14 +89,10 @@ When uploading the traces to Openstreetmap:
 4. You are ready to go :)
 
 
-**For the traces uploader to OpenStreetMap: **
+**For the OpenStreetMap traces uploader:**
 
 1. Get the serval-dna source code with `git clone https://github.com/servalproject/serval-dna.git`
 2. Configure it with
-```
-autoreconf -f -i
-./configure
-make
-```
-3. Then get the script [https://github.com/LoicLWRT/FieldTracer/blob/master/unix_script/pushing_traces_to_OpenStreetMap.sh](https://github.com/LoicLWRT/FieldTracer/blob/master/unix_script/pushing_traces_to_OpenStreetMap.sh) and place it in the serval-dna folder
+`autoreconf -f -i` then `./configure` and `make`
+3. Get the script [https://github.com/LoicLWRT/FieldTracer/blob/master/unix_script/pushing_traces_to_OpenStreetMap.sh](https://github.com/LoicLWRT/FieldTracer/blob/master/unix_script/pushing_traces_to_OpenStreetMap.sh) and place it in the serval-dna folder
 4. Configure and run the script to upload traces when one phone is connected to the Unix machine 
