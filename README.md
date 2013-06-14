@@ -63,17 +63,21 @@ It is possible to specifies the background map used for tracing and which format
 
 ###Serval
 The application interconnects uses the Serval Mesh for sharing and getting data from a mesh between multiple phones. Serval can actually not only uses a mesh configuration but also a base-station / clients network.
+
 See [http://www.servalproject.org/](http://www.servalproject.org/)
 
 ###Mapsforge
 The application uses the Mapsforge library to display background maps without having to poll them from Internet.
+
 See [https://code.google.com/p/mapsforge/](https://code.google.com/p/mapsforge/)
 
-###Software stack used
+##Software stack used
 When diffusing the traces within the team:
+
 ![](documentation/stack_diffusion.png)
 
 When uploading the traces to Openstreetmap:
+
 ![](documentation/stack_upload.png)
 
 ##Installation##
