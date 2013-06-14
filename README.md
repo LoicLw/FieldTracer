@@ -35,7 +35,7 @@ When adding a Point of Interest, an user can specify **which type and name** sho
 
 ![](documentation/poi_details.png)
 
-It works the same for the traces.
+It works in the same way for the traces.
 
 ![](documentation/trace_details.png)
 
@@ -54,7 +54,7 @@ It is possible to visualize the background maps from the mesh network and from t
 ![](documentation/all_map_visualization.png)
 
 ### Settings
-It is possible to specifies the background map used for tracing and which format should be used for traces (GPX or Text)
+It is possible to specify the background map used for tracing and which format should be used for traces (GPX or Text)
 
 ![](documentation/settings.png)
 
@@ -100,3 +100,10 @@ When uploading the traces to OpenStreetMap:
 `autoreconf -f -i` then `./configure` and `make`
 3. Get the script [https://github.com/LoicLWRT/FieldTracer/blob/master/unix_script/pushing_traces_to_OpenStreetMap.sh](https://github.com/LoicLWRT/FieldTracer/blob/master/unix_script/pushing_traces_to_OpenStreetMap.sh) and place it in the serval-dna folder
 4. Configure and run the script to upload traces when one phone is connected to the Unix machine
+
+##Future improvements##
+- Core traces recording should be made as a service to improve continuous operation
+- Mapsforge library could be migrated to the upcoming 0.4 when it is released
+- Direct upload to OpenStreetMap from one mesh node without having to run the Unix script
+- Automated creation of OpenStreetMap accounts linked to a SID to improve data separation between multiple team members
+- Security assessment to prevent data tampering 
