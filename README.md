@@ -14,7 +14,7 @@ At first the application proposes you to pre activate the GPS sensor. This can b
 
 ![](documentation/home_page.png)
 
-The signal is then acquired and an user can start to trace or to note Point of Interest.
+The signal is then acquired and an user can start to trace or to note Point of Interests.
 
 As shown in the menu, the application is divided in 4 activities:
 
@@ -86,11 +86,12 @@ When uploading the traces to OpenStreetMap:
 
 1. Get the Serval Mesh application (Google Play: [https://play.google.com/store/apps/details?id=org.servalproject](https://play.google.com/store/apps/details?id=org.servalproject) )
 2. Configure Serval Mesh with a phone number and a name
-2. Download the git source code with `git clone https://github.com/LoicLWRT/FieldTracer.git`
-3. Open the project under Eclipse or compile directly with `ant`
-2. Get a Mapsforge map of the zone you plan to trace from [http://download.bbbike.org/osm/](http://download.bbbike.org/osm/)
-3. Copy the map to the `/sdcard/FieldTracer/` folder
-4. You are ready to go :)
+3. Download the git source code with `git clone https://github.com/LoicLWRT/FieldTracer.git`
+4. Open the project under Eclipse or compile directly with `ant`
+5. OR directly install the APK from [android_app/bin/FieldTracer.apk](android_app/bin/FieldTracer.apk)
+6. Get a Mapsforge map of the zone you plan to trace from [http://download.bbbike.org/osm/](http://download.bbbike.org/osm/)
+7. Copy the map to the `/sdcard/FieldTracer/` folder
+8. You are ready to go :)
 
 
 **For the OpenStreetMap traces uploader:**
